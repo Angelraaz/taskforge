@@ -389,9 +389,9 @@ mark{background:#f1c40f;color:#1a1a2e;padding:0 2px;border-radius:2px}
 // ============================================
 // CONFIGURACIÓN DE SUPABASE
 // ============================================
-const SUPABASE_URL = 'https://yssttxgbzcotsdcyxcnb.supabase.co';
+const SUPABASE_URL = 'https://yssttxgbzcotsdcyxcnb.sb.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlzc3R0eGdiemNvdHNkY3l4Y25iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxNTQ2MjksImV4cCI6MjEwNzczMDYyOX0.VT__5qNY-xE6tX_S6veQydTphf1voD2C9Y2GgSsudRU';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = window.sb.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 var currentUser = null;
 var datos = {tableros:[],tableroActivo:null,configNotif:{activadas:false,sonido:true,diasAnticipacion:1,notificadas:{}}};
@@ -426,7 +426,7 @@ async function registrarse(){
     if(!email||!password){mostrarError("Escribe correo y contraseña");return}
     if(password.length<6){mostrarError("La contraseña debe tener mínimo 6 caracteres");return}
     mostrarLoading(true);
-    var {data,error}=await supabase.auth.signUp({email:email,password:password});
+    var {data,error}=await sb.auth.signUp({email:email,password:password});
     mostrarLoading(false);
     if(error){mostrarError("Error: "+error.message);return}
     if(data.user){
@@ -441,7 +441,7 @@ async function iniciarSesion(){
     var password=document.getElementById("login-password").value;
     if(!email||!password){mostrarError("Escribe correo y contraseña");return}
     mostrarLoading(true);
-    var {data,error}=await supabase.auth.signInWithPassword({email:email,password:password});
+    var {data,error}=await sb.auth.signInWithPassword({email:email,password:password});
     mostrarLoading(false);
     if(error){mostrarError("Error: "+error.message);return}
     currentUser=data.user;
@@ -450,7 +450,7 @@ async function iniciarSesion(){
 }
 
 async function cerrarSesion(){
-    await supabase.auth.signOut();
+    await sb.auth.signOut();
     currentUser=null;
     datos={tableros:[],tableroActivo:null,configNotif:{activadas:false,sonido:true,diasAnticipacion:1,notificadas:{}}};
     document.getElementById("pantalla-login").style.display="flex";
@@ -472,23 +472,23 @@ function mostrarApp(){
 async function cargarTodo(){
     if(!currentUser)return;
     try{
-        var {data:boards,error:errB}=await supabase.from("boards").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:true});
+        var {data:boards,error:errB}=await sb.from("boards").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:true});
         if(errB)throw errB;
         if(!boards||boards.length===0){
             // Crear tablero por defecto
             await crearTableroPorDefecto();
-            var {data:boards2}=await supabase.from("boards").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:true});
+            var {data:boards2}=await sb.from("boards").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:true});
             boards=boards2;
         }
         datos.tableros=[];
         for(var i=0;i<boards.length;i++){
             var b=boards[i];
-            var {data:cols,error:errC}=await supabase.from("columns").select("*").eq("board_id",b.id).order("position",{ascending:true});
+            var {data:cols,error:errC}=await sb.from("columns").select("*").eq("board_id",b.id).order("position",{ascending:true});
             if(errC)throw errC;
             var columnas=[];
             for(var j=0;j<(cols||[]).length;j++){
                 var c=cols[j];
-                var {data:cards,error:errK}=await supabase.from("cards").select("*").eq("column_id",c.id).order("position",{ascending:true});
+                var {data:cards,error:errK}=await sb.from("cards").select("*").eq("column_id",c.id).order("position",{ascending:true});
                 if(errK)throw errK;
                 var tarjetas=(cards||[]).map(function(k){
                     return {
@@ -516,13 +516,13 @@ async function cargarTodo(){
 }
 
 async function crearTableroPorDefecto(){
-    var {data:b,error:errB}=await supabase.from("boards").insert({
+    var {data:b,error:errB}=await sb.from("boards").insert({
         user_id:currentUser.id,name:"Mi Tablero",description:"",background_color:"azul-marino"
     }).select().single();
     if(errB){console.error(errB);return}
     var cols=["Por Hacer","En Proceso","Hecho"];
     for(var i=0;i<cols.length;i++){
-        await supabase.from("columns").insert({board_id:b.id,name:cols[i],position:i,color:"negro"});
+        await sb.from("columns").insert({board_id:b.id,name:cols[i],position:i,color:"negro"});
     }
 }
 
@@ -587,7 +587,7 @@ function dibujarSelector(){
 
 async function borrarTablero(idTablero){
     if(!confirm("¿Seguro que quieres borrar este tablero?"))return;
-    var {error}=await supabase.from("boards").delete().eq("id",idTablero);
+    var {error}=await sb.from("boards").delete().eq("id",idTablero);
     if(error){alert("Error: "+error.message);return}
     await cargarTodo();
     if(datos.tableros.length===0)await crearTableroPorDefecto();
@@ -621,7 +621,7 @@ function renderTablero(){
     for(var i=0;i<t.columnas.length;i++){tab.appendChild(crearColumnaHTML(t.columnas[i],t))}
     if(modoTablero==="horizontal"||window.innerWidth>768){
         var b=document.createElement("button");b.className="btn-agregar-columna";b.textContent="+ Agregar columna";
-        b.onclick=async function(){var n=prompt("Nombre de la columna:");if(n&&n.trim()){await supabase.from("columns").insert({board_id:t.id,name:n.trim(),position:t.columnas.length,color:"negro"});await cargarTodo();dibujarTodo()}};
+        b.onclick=async function(){var n=prompt("Nombre de la columna:");if(n&&n.trim()){await sb.from("columns").insert({board_id:t.id,name:n.trim(),position:t.columnas.length,color:"negro"});await cargarTodo();dibujarTodo()}};
         tab.appendChild(b);
     }
     activarSortable();
@@ -633,18 +633,18 @@ function crearColumnaHTML(col,tablero){
     var h2=document.createElement("h2");h2.textContent=col.nombre;header.appendChild(h2);
     var acc=document.createElement("div");acc.className="acciones";
     var bC=document.createElement("button");bC.className="btn-mini";bC.textContent="🎨";bC.onclick=function(){abrirModalColor("columna",col.id)};acc.appendChild(bC);
-    var bR=document.createElement("button");bR.className="btn-mini";bR.textContent="✏";bR.onclick=async function(){var n=prompt("Nuevo nombre:",col.nombre);if(n&&n.trim()){await supabase.from("columns").update({name:n.trim()}).eq("id",col.id);await cargarTodo();dibujarTodo()}};acc.appendChild(bR);
-    var bB=document.createElement("button");bB.className="btn-mini";bB.textContent="🗑";bB.onclick=async function(){if(confirm("¿Borrar columna?")){await supabase.from("columns").delete().eq("id",col.id);await cargarTodo();dibujarTodo()}};acc.appendChild(bB);
+    var bR=document.createElement("button");bR.className="btn-mini";bR.textContent="✏";bR.onclick=async function(){var n=prompt("Nuevo nombre:",col.nombre);if(n&&n.trim()){await sb.from("columns").update({name:n.trim()}).eq("id",col.id);await cargarTodo();dibujarTodo()}};acc.appendChild(bR);
+    var bB=document.createElement("button");bB.className="btn-mini";bB.textContent="🗑";bB.onclick=async function(){if(confirm("¿Borrar columna?")){await sb.from("columns").delete().eq("id",col.id);await cargarTodo();dibujarTodo()}};acc.appendChild(bB);
     header.appendChild(acc);div.appendChild(header);
     var lista=document.createElement("div");lista.className="lista-tarjetas";lista.id="lista-"+col.id;lista.setAttribute("data-columna",col.id);
     for(var j=0;j<col.tarjetas.length;j++){lista.appendChild(crearTarjetaHTML(col.tarjetas[j],col,tablero))}
     div.appendChild(lista);
     var bA=document.createElement("button");bA.className="btn-agregar-tarjeta";bA.textContent="+ Agregar tarjeta";
-    bA.onclick=async function(){var texto=prompt("Nueva tarea:");if(texto&&texto.trim()){await supabase.from("cards").insert({column_id:col.id,text:texto.trim(),position:col.tarjetas.length});await cargarTodo();dibujarTodo()}};
+    bA.onclick=async function(){var texto=prompt("Nueva tarea:");if(texto&&texto.trim()){await sb.from("cards").insert({column_id:col.id,text:texto.trim(),position:col.tarjetas.length});await cargarTodo();dibujarTodo()}};
     div.appendChild(bA);
     if(modoTablero==="vertical"&&window.innerWidth<=768){
         var bE=document.createElement("button");bE.className="btn btn-gris";bE.style.cssText="width:100%;margin-top:6px;font-size:12px;padding:6px";bE.textContent="🗑 Borrar columna";
-        bE.onclick=async function(){if(confirm("¿Borrar columna?")){await supabase.from("columns").delete().eq("id",col.id);await cargarTodo();dibujarTodo()}};
+        bE.onclick=async function(){if(confirm("¿Borrar columna?")){await sb.from("columns").delete().eq("id",col.id);await cargarTodo();dibujarTodo()}};
         div.appendChild(bE);
     }
     return div;
@@ -657,7 +657,7 @@ function crearTarjetaHTML(tarjeta,col,tablero){
     if(tarjeta.fecha&&tarjeta.fecha<hoyStr&&!tarjeta.completada)tar.classList.add("vencida");
     if(tarjeta.completada)tar.classList.add("tarjeta-completada");
     var chk=document.createElement("button");chk.className="check-completado"+(tarjeta.completada?" marcado":"");chk.textContent="✓";
-    chk.onclick=async function(e){e.stopPropagation();await supabase.from("cards").update({completed:!tarjeta.completada}).eq("id",tarjeta.id);await cargarTodo();dibujarTodo()};
+    chk.onclick=async function(e){e.stopPropagation();await sb.from("cards").update({completed:!tarjeta.completada}).eq("id",tarjeta.id);await cargarTodo();dibujarTodo()};
     tar.appendChild(chk);
     var tx=document.createElement("div");tx.className="texto-tarjeta";tx.textContent=tarjeta.texto;tar.appendChild(tx);
     if(tarjeta.descripcion&&tarjeta.descripcion.trim()!==""){var d=document.createElement("div");d.className="descripcion-preview";d.textContent=tarjeta.descripcion;tar.appendChild(d)}
@@ -669,7 +669,7 @@ function crearTarjetaHTML(tarjeta,col,tablero){
     var bot=document.createElement("div");bot.className="botones-tarjeta";
     var bC=document.createElement("button");bC.textContent="🎨";bC.onclick=function(e){e.stopPropagation();abrirModalColor("tarjeta",tarjeta.id)};bot.appendChild(bC);
     var bM=document.createElement("button");bM.className="btn-mover";bM.textContent="➡";bM.onclick=function(e){e.stopPropagation();moverTarjeta(tarjeta,col,tablero)};bot.appendChild(bM);
-    var bB=document.createElement("button");bB.textContent="×";bB.onclick=async function(e){e.stopPropagation();await supabase.from("cards").delete().eq("id",tarjeta.id);await cargarTodo();dibujarTodo()};bot.appendChild(bB);
+    var bB=document.createElement("button");bB.textContent="×";bB.onclick=async function(e){e.stopPropagation();await sb.from("cards").delete().eq("id",tarjeta.id);await cargarTodo();dibujarTodo()};bot.appendChild(bB);
     tar.appendChild(bot);
     tar.onclick=function(e){if(e.target.closest(".botones-tarjeta")||e.target.closest(".check-completado"))return;verDetalle(tarjeta)};
     return tar;
@@ -805,7 +805,7 @@ async function guardarDetalle(){
     var hora=document.getElementById("detalle-hora").value;
     var dueDate=null;
     if(fecha){dueDate=fecha+(hora?"T"+hora+":00":"T09:00:00")}
-    var {error}=await supabase.from("cards").update({
+    var {error}=await sb.from("cards").update({
         text:document.getElementById("detalle-texto").value.trim()||tarjetaEditando.texto,
         description:document.getElementById("detalle-descripcion").value,
         completed:document.getElementById("detalle-completada").checked,
@@ -824,7 +824,7 @@ async function moverTarjeta(tarjeta,col,tablero){
     var e=prompt("¿A qué columna mover?\n\n"+opciones);if(!e)return;
     var num=parseInt(e);if(isNaN(num)||num<1||num>indices.length){alert("Opción no válida");return}
     var destino=tablero.columnas[indices[num-1]];
-    var {error}=await supabase.from("cards").update({column_id:destino.id}).eq("id",tarjeta.id);
+    var {error}=await sb.from("cards").update({column_id:destino.id}).eq("id",tarjeta.id);
     if(error){alert("Error: "+error.message);return}
     await cargarTodo();dibujarTodo();
 }
@@ -839,7 +839,7 @@ function abrirModalColor(tipo,id){
 
 async function aplicarColorSeleccionado(color){
     if(!colorSeleccionado)return;
-    if(colorSeleccionado.tipo==="fondo"){var t=obtenerTablero();await supabase.from("boards").update({background_color:color}).eq("id",t.id);await cargarTodo();dibujarFondo();cerrarModal("modal-color");return}
+    if(colorSeleccionado.tipo==="fondo"){var t=obtenerTablero();await sb.from("boards").update({background_color:color}).eq("id",t.id);await cargarTodo();dibujarFondo();cerrarModal("modal-color");return}
     cerrarModal("modal-color");
 }
 
@@ -858,7 +858,7 @@ async function guardarAcercaDe(){
     var t=obtenerTablero();if(!t)return;
     var n=document.getElementById("acerca-nombre").value.trim();
     var d=document.getElementById("acerca-descripcion").value;
-    await supabase.from("boards").update({name:n||t.nombre,description:d}).eq("id",t.id);
+    await sb.from("boards").update({name:n||t.nombre,description:d}).eq("id",t.id);
     await cargarTodo();dibujarSelector();cerrarModal("modal-acerca");
 }
 
@@ -1032,7 +1032,7 @@ function activarSortable(){
                     var idD=evt.to.getAttribute("data-columna");
                     var idT=evt.item.getAttribute("data-id");
                     if(!idD||!idT||idD===col.id)return;
-                    await supabase.from("cards").update({column_id:idD}).eq("id",idT);
+                    await sb.from("cards").update({column_id:idD}).eq("id",idT);
                     await cargarTodo();
                 }
             });
@@ -1042,10 +1042,10 @@ function activarSortable(){
 
 async function crearTablero(){
     var n=prompt("Nombre del nuevo tablero:");if(!n||!n.trim())return;
-    var {data:b,error}=await supabase.from("boards").insert({user_id:currentUser.id,name:n.trim(),description:"",background_color:"azul-marino"}).select().single();
+    var {data:b,error}=await sb.from("boards").insert({user_id:currentUser.id,name:n.trim(),description:"",background_color:"azul-marino"}).select().single();
     if(error){alert("Error: "+error.message);return}
     var cols=["Por Hacer","En Proceso","Hecho"];
-    for(var i=0;i<cols.length;i++){await supabase.from("columns").insert({board_id:b.id,name:cols[i],position:i,color:"negro"})}
+    for(var i=0;i<cols.length;i++){await sb.from("columns").insert({board_id:b.id,name:cols[i],position:i,color:"negro"})}
     await cargarTodo();
     datos.tableroActivo=b.id;
     dibujarTodo();
@@ -1055,7 +1055,7 @@ async function crearTablero(){
 // INICIALIZACIÓN
 // ============================================
 async function init(){
-    var {data:{session}}=await supabase.auth.getSession();
+    var {data:{session}}=await sb.auth.getSession();
     if(session&&session.user){
         currentUser=session.user;
         await cargarTodo();

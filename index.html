@@ -389,9 +389,9 @@ mark{background:#f1c40f;color:#1a1a2e;padding:0 2px;border-radius:2px}
 // ============================================
 // CONFIGURACIÓN DE SUPABASE
 // ============================================
-const SUPABASE_URL = 'https://yssttxgbzcotsdcyxcnb.sb.co';
+const SUPABASE_URL = 'https://yssttxgbzcotsdcyxcnb.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlzc3R0eGdiemNvdHNkY3l4Y25iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxNTQ2MjksImV4cCI6MjEwNzczMDYyOX0.VT__5qNY-xE6tX_S6veQydTphf1voD2C9Y2GgSsudRU';
-const sb = window.sb.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 var currentUser = null;
 var datos = {tableros:[],tableroActivo:null,configNotif:{activadas:false,sonido:true,diasAnticipacion:1,notificadas:{}}};

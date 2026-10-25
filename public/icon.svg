@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="50%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000000" flood-opacity="0.35" />
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)" />
+  <rect width="512" height="512" rx="128" fill="url(#glowGrad)" />
+  <!-- Minimalist Forge & Checklist Mark -->
+  <g filter="url(#shadow)" transform="translate(106, 106) scale(0.6)">
+    <!-- Main Forge Anvil / T-bar geometric block -->
+    <path d="M60 120 C60 100, 76 84, 96 84 L404 84 C424 84, 440 100, 440 120 L440 160 C440 176, 428 190, 412 194 L310 220 L310 320 L380 380 C395 392, 395 414, 380 426 L360 440 C345 452, 325 452, 310 440 L250 390 L190 440 C175 452, 155 452, 140 440 L120 426 C105 414, 105 392, 120 380 L190 320 L190 220 L88 194 C72 190, 60 176, 60 160 Z" fill="#ffffff" fill-opacity="0.95" />
+    <!-- Checkmark accent inside -->
+    <path d="M190 140 L230 180 L310 100" stroke="#4f46e5" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  </g>
+</svg>

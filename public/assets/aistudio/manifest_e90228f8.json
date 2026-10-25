@@ -1,0 +1,11 @@
+{
+    "name": "TaskForge",
+    "short_name": "TaskForge",
+    "description": "Gestor de tareas tipo Trello con estética industrial",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "#1a2942",
+    "theme_color": "#0079bf",
+    "orientation": "portrait"
+    
+}

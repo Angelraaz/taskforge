@@ -4,42 +4,50 @@ import {
   Sun,
   Moon,
   Laptop,
+  Check,
   User,
   Hammer,
-  Check,
   Cloud,
   CloudOff,
   Loader2,
+  Printer,
+  Users,
 } from 'lucide-react';
 import { ThemeMode, UserSession } from '../types';
 
-export type SyncStatus = 'synced' | 'saving' | 'error' | 'offline';
+export type SyncStatus = 'saving' | 'synced' | 'error' | 'offline';
 
 interface HeaderProps {
   onOpenNotifications: () => void;
   onOpenAuth: () => void;
+  onOpenWorkgroup?: () => void;
+  onPrint?: () => void;
   alertCount: number;
   themeMode: ThemeMode;
   onSelectThemeMode: (mode: ThemeMode) => void;
   currentUser: UserSession | null;
   syncStatus?: SyncStatus;
+  memberCount?: number;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   onOpenNotifications,
   onOpenAuth,
+  onOpenWorkgroup,
+  onPrint,
   alertCount,
   themeMode,
   onSelectThemeMode,
   currentUser,
   syncStatus = 'synced',
+  memberCount = 1,
 }) => {
   const [showThemeMenu, setShowThemeMenu] = useState(false);
 
   return (
     <header className="w-full bg-white dark:bg-slate-900 border-b border-slate-200/80 dark:border-slate-800 transition-colors">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-3">
-        {/* Brand & Subtitle with v1.5 */}
+        {/* Brand & Subtitle with v2.1 */}
         <div className="flex items-center gap-2.5 sm:gap-3 flex-shrink-0">
           <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 flex-shrink-0">
             <Hammer className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -52,17 +60,17 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium tracking-wide flex items-center gap-1.5 mt-0.5">
               <span>by AJRC SERVICIOS</span>
               <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded border border-slate-200/60 dark:border-slate-700/60">
-                v1.5
+                v2.1
               </span>
             </div>
           </div>
         </div>
 
-        {/* Right Tools: Sync Pill, Notifications, Theme, User */}
+        {/* Right Tools: Workgroup, Print, Sync Pill, Notifications, Theme, User */}
         <div className="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
           {/* Supabase Single Source of Truth Status Pill */}
           {currentUser && (
-            <div className="hidden md:flex items-center">
+            <div className="hidden lg:flex items-center">
               {syncStatus === 'saving' && (
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60 animate-pulse">
                   <Loader2 className="w-3 h-3 animate-spin" />
@@ -90,7 +98,34 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           )}
 
-          {/* 1. Notification Bell with Badge */}
+          {/* Grupo de Trabajo / Colaboradores Button */}
+          {onOpenWorkgroup && (
+            <button
+              onClick={onOpenWorkgroup}
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition-all border border-indigo-200/80 dark:border-indigo-800/80 active:scale-95 shadow-sm text-xs font-semibold"
+              title="Grupo de Trabajo y Colaboradores"
+            >
+              <Users className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+              <span className="hidden sm:inline">Equipo</span>
+              <span className="w-5 h-5 rounded-full bg-indigo-600 text-white text-[10px] font-bold flex items-center justify-center">
+                {memberCount}
+              </span>
+            </button>
+          )}
+
+          {/* Quick Print Button */}
+          {onPrint && (
+            <button
+              onClick={onPrint}
+              className="w-10 h-10 rounded-xl flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-200/80 dark:hover:bg-slate-750 transition-all border border-slate-200/50 dark:border-slate-700/50 active:scale-95 shadow-sm"
+              title="Imprimir Tablero (Vista limpia)"
+              aria-label="Imprimir"
+            >
+              <Printer className="w-4 h-4" />
+            </button>
+          )}
+
+          {/* Notification Bell with Badge */}
           <button
             onClick={onOpenNotifications}
             className={`w-10 h-10 rounded-xl flex items-center justify-center relative bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-200/80 dark:hover:bg-slate-700/80 transition-all border border-slate-200/50 dark:border-slate-700/50 active:scale-95 shadow-sm ${
@@ -107,7 +142,7 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </button>
 
-          {/* 2. Theme Mode Selector (Auto / Light / Dark) */}
+          {/* Theme Mode Selector (Auto / Light / Dark) */}
           <div className="relative">
             <button
               onClick={() => setShowThemeMenu(!showThemeMenu)}
@@ -181,37 +216,23 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </div>
 
-          {/* 3. User Account / Supabase */}
+          {/* User / Auth Trigger */}
           <button
             onClick={onOpenAuth}
-            className={`w-10 h-10 rounded-xl flex items-center justify-center relative transition-all border active:scale-95 shadow-sm ${
+            className={`h-10 px-3 rounded-xl flex items-center gap-2 text-xs font-semibold border transition-all active:scale-95 shadow-sm ${
               currentUser
-                ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/60'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 border-slate-200/50 dark:border-slate-700/50'
+                ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100'
+                : 'bg-slate-100 dark:bg-slate-800 border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:bg-slate-200/80 dark:hover:bg-slate-700/80'
             }`}
-            title={
-              currentUser
-                ? `Conectado: ${currentUser.email} (Supabase)`
-                : 'Iniciar Sesión / Supabase Cloud'
-            }
-            aria-label="Cuenta de usuario"
+            title={currentUser ? `Conectado como ${currentUser.email}` : 'Iniciar sesión en la Nube'}
           >
-            <User className="w-4 h-4" />
-            {currentUser && (
-              <span
-                className={`absolute bottom-1 right-1 w-2.5 h-2.5 rounded-full border-2 border-white dark:border-slate-900 ${
-                  syncStatus === 'saving'
-                    ? 'bg-amber-400 animate-ping'
-                    : syncStatus === 'error'
-                    ? 'bg-rose-500'
-                    : 'bg-emerald-500'
-                }`}
-              />
-            )}
+            <User className="w-3.5 h-3.5 flex-shrink-0" />
+            <span className="hidden sm:inline max-w-[120px] truncate">
+              {currentUser ? currentUser.email.split('@')[0] : 'Invitado'}
+            </span>
           </button>
         </div>
       </div>
     </header>
   );
 };
-

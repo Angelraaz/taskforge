@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#07006c", "error-container": "#93000a", "on-tertiary-container": "#400071", "secondary-fixed": "#e0e0ff", "primary": "#c0c1ff", "on-background": "#dfe2f1", "on-primary": "#1000a9", "surface": "#0f131d", "background": "#0f131d", "inverse-on-surface": "#2c303b", "on-surface-variant": "#c7c4d7", "inverse-primary": "#494bd6", "outline-variant": "#464554", "surface-bright": "#353944", "on-primary-fixed-variant": "#2f2ebe", "surface-container": "#1c1f2a", "error": "#ffb4ab", "on-secondary-fixed": "#000767", "surface-container-highest": "#313540", "tertiary-fixed-dim": "#ddb7ff", "tertiary": "#ddb7ff", "on-error-container": "#ffdad6", "tertiary-fixed": "#f0dbff", "surface-tint": "#c0c1ff", "on-tertiary": "#490080", "on-tertiary-fixed": "#2c0051", "primary-fixed-dim": "#c0c1ff", "secondary": "#bdc2ff", "on-primary-container": "#0d0096", "surface-container-low": "#171b26", "surface-container-high": "#262a35", "on-secondary": "#131e8c", "inverse-surface": "#dfe2f1", "on-surface": "#dfe2f1", "secondary-fixed-dim": "#bdc2ff", "on-secondary-fixed-variant": "#2f3aa3", "surface-variant": "#313540", "tertiary-container": "#b76dff", "surface-container-lowest": "#0a0e18", "on-error": "#690005", "secondary-container": "#2f3aa3", "on-tertiary-fixed-variant": "#6900b3", "primary-container": "#8083ff", "on-secondary-container": "#a8afff", "outline": "#908fa0", "surface-dim": "#0f131d", "primary-fixed": "#e1e0ff" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-md": "0.75rem", "gutter": "1rem", "space-xs": "0.25rem", "margin": "1.5rem", "space-sm": "0.5rem", "space-lg": "1.25rem", "gutter-board": "1.25rem", "margin-mobile": "1rem", "space-xl": "2rem" }, "fontFamily": { "body-md": ["Geist"], "label-lg": ["JetBrains Mono"], "headline-md": ["Geist"], "body-lg": ["Geist"], "label-md": ["JetBrains Mono"], "headline-xl-mobile": ["Geist"], "headline-sm": ["Geist"], "label-sm": ["JetBrains Mono"], "headline-xl": ["Geist"], "body-sm": ["Geist"], "headline-lg": ["Geist"] }, "fontSize": { "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}], "label-lg": ["14px", {"lineHeight": "20px", "fontWeight": "500"}], "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}], "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}], "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}], "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}], "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}], "label-sm": ["10px", {"lineHeight": "14px", "fontWeight": "500"}], "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "600"}], "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}], "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}] } } } };</script></head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 w-full z-40 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 w-full px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md min-w-0"><button aria-label="Alternar barra lateral" class="flex items-center justify-center w-8 h-8 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">dock_to_left</span></button><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight select-none">TaskForge</span><span class="font-label-sm text-label-sm text-primary bg-surface-container-high px-space-xs py-0.5 rounded-full select-none">v1.5</span><span class="hidden lg:inline text-on-surface-variant font-body-sm text-body-sm select-none">· AJRC SERVICIOS</span></div><div class="hidden md:flex items-center gap-space-xs pl-space-sm"><span class="text-outline text-[14px]">/</span><div class="flex items-center gap-space-xs px-space-sm py-1 rounded-lg hover:bg-surface-container-high cursor-pointer transition-colors"><span class="w-2 h-2 rounded-full bg-primary"></span><span class="font-body-md text-body-md text-on-surface font-medium">Plataforma Core</span><span class="material-symbols-outlined text-[16px] text-on-surface-variant">unfold_more</span></div></div></div><div class="flex items-center gap-space-sm flex-1 max-w-lg mx-space-md hidden sm:flex"><div class="flex items-center w-full bg-surface-container-low rounded-lg px-space-sm py-1.5 text-on-surface-variant hover:bg-surface-container transition-colors cursor-pointer group"><span class="material-symbols-outlined text-[18px] mr-space-sm text-on-surface-variant group-hover:text-on-surface">search</span><span class="font-body-sm text-body-sm text-on-surface-variant flex-1">Buscar tareas, etiquetas o personas...</span><kbd class="hidden md:inline-flex items-center font-label-sm text-label-sm bg-surface-container-highest text-on-surface-variant px-1.5 py-0.5 rounded text-[10px] select-none">⌘K</kbd></div></div><div class="flex items-center gap-space-xs"><button aria-label="Imprimir tablero" class="w-8 h-8 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" onclick="window.print()" title="Imprimir vista actual" type="button"><span class="material-symbols-outlined text-[18px]">print</span></button><button aria-label="Alternar modo oscuro" class="w-8 h-8 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Alternar tema" type="button"><span class="material-symbols-outlined text-[18px]">dark_mode</span></button><div class="relative"><button aria-label="Notificaciones" class="w-8 h-8 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Notificaciones" type="button"><span class="material-symbols-outlined text-[18px]">notifications</span></button><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error ring-2 ring-surface"></span></div><div class="pl-space-xs ml-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center cursor-pointer select-none"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest z-30 flex flex-col justify-between pt-14 pb-space-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col flex-1 overflow-y-auto px-space-sm pt-space-md gap-space-md"><div class="px-space-xs"><div class="flex items-center justify-between px-space-sm py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors"><div class="flex items-center gap-space-sm min-w-0"><div class="w-5 h-5 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container font-label-sm text-label-sm font-bold">TF</div><span class="font-body-sm text-body-sm text-on-surface truncate font-medium">AJRC · Sprint 24</span></div><span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span></div></div><div class="flex flex-col gap-0.5"><div class="px-space-sm py-1"><span class="font-label-sm text-label-sm text-outline uppercase tracking-wider select-none">Espacio de Trabajo</span></div><nav class="flex flex-col gap-0.5" data-active-classes="bg-surface-container-high text-on-surface font-medium rounded-lg"><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-2 transition-colors bg-surface-container-high text-on-surface font-medium rounded-lg" data-path="tablero" href="#"><span class="material-symbols-outlined text-[18px]">view_kanban</span><span>Tablero (Kanban)</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="calendario" href="#"><span class="material-symbols-outlined text-[18px]">calendar_month</span><span>Calendario</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="cronograma" href="#"><span class="material-symbols-outlined text-[18px]">reorder</span><span>Cronograma (Gantt)</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="mis-tareas" href="#"><span class="material-symbols-outlined text-[18px]">check_circle</span><span class="flex-1">Mis Tareas</span><span class="font-label-sm text-label-sm bg-surface-container-highest text-on-surface-variant px-1.5 py-0.2 rounded-full">7</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="ajustes-del-proyecto" href="#"><span class="material-symbols-outlined text-[18px]">tune</span><span>Ajustes del Proyecto</span></a></nav></div><div class="flex flex-col gap-space-xs px-space-xs pt-space-xs"><div class="flex items-center justify-between px-space-xs"><span class="font-label-sm text-label-sm text-outline uppercase tracking-wider select-none">Equipo en línea</span><span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-1 rounded-full">4</span></div><div class="flex items-center gap-space-xs px-space-xs py-1"><div class="relative"><div class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-sm text-label-sm font-semibold">AR</div><span class="absolute bottom-0 right-0 w-1.5 h-1.5 rounded-full bg-primary ring-1 ring-surface-container-lowest"></span></div><div class="relative"><div class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center font-label-sm text-label-sm font-semibold">LM</div><span class="absolute bottom-0 right-0 w-1.5 h-1.5 rounded-full bg-primary ring-1 ring-surface-container-lowest"></span></div><div class="relative"><div class="w-6 h-6 rounded-full bg-surface-container-high text-on-surface flex items-center justify-center font-label-sm text-label-sm font-semibold">SK</div><span class="absolute bottom-0 right-0 w-1.5 h-1.5 rounded-full bg-outline ring-1 ring-surface-container-lowest"></span></div><div class="relative"><div class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-label-sm text-label-sm">+2</div></div></div></div></div><div class="px-space-sm pt-space-xs"><div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-space-xs"><div class="flex items-center justify-between text-on-surface-variant"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[14px] text-primary">cloud_done</span><span class="font-label-sm text-label-sm">PWA Sincronizada</span></div><span class="font-label-sm text-label-sm text-on-surface-variant">82%</span></div><div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden"><div class="h-full bg-primary rounded-full w-[82%]"></div></div><div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm"><span class="text-[10px]">Almacenamiento local</span><span class="text-[10px]">12.4 MB / 15 MB</span></div></div></div></aside><div class="pl-64"><main class="w-full pt-14 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Print Stylesheet for Pure High-Contrast Paper Export -->
+<style>
+    @media print {
+      body, html {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+      }
+      header, aside, .no-print, [aria-label="Alternar barra lateral"] {
+        display: none !important;
+      }
+      .pl-64 {
+        padding-left: 0 !important;
+      }
+      main {
+        padding-top: 0 !important;
+        background: #ffffff !important;
+      }
+      .kanban-viewport {
+        overflow: visible !important;
+        display: block !important;
+      }
+      .kanban-grid-print {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 12px !important;
+        width: 100% !important;
+      }
+      .kanban-col-print {
+        background: #f8fafc !important;
+        color: #0f172a !important;
+        border-radius: 6px !important;
+        page-break-inside: avoid;
+      }
+      .kanban-card-print {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+        break-inside: avoid;
+      }
+    }
+  </style>
+<!-- Top Sticky Workspace Command & Filter Bar -->
+<div class="sticky top-14 z-20 w-full bg-surface-container-lowest/95 backdrop-blur-md px-margin py-space-sm flex flex-col gap-space-sm shadow-sm no-print">
+<!-- Row 1: Project Identity, View Switcher & Primary Action Hooks -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="flex items-center gap-space-xs min-w-0">
+<div class="w-7 h-7 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center font-label-md text-label-md font-bold shrink-0">
+            TF
+          </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<h1 class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight truncate">Proyecto Principal</h1>
+<span class="font-label-sm text-label-sm text-outline">TF-CORE</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-primary/10 text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                Sprint #4: Lanzamiento v1.5
+              </span>
+<span class="text-outline text-label-sm">·</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-tertiary">commit</span> main@84e1bfa
+              </span>
+</div>
+</div>
+</div>
+<!-- View Segment Switcher -->
+<div class="hidden xl:flex items-center bg-surface-container-low rounded-lg p-0.5 ml-space-md">
+<button class="flex items-center gap-1.5 px-space-sm py-1 rounded-lg bg-surface-container-high text-primary font-body-sm text-body-sm font-medium shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">view_kanban</span>
+<span>Tablero</span>
+</button>
+<button class="flex items-center gap-1.5 px-space-sm py-1 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-body-sm text-body-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">calendar_month</span>
+<span>Calendario</span>
+</button>
+<button class="flex items-center gap-1.5 px-space-sm py-1 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-body-sm text-body-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">reorder</span>
+<span>Cronograma</span>
+</button>
+<button class="flex items-center gap-1.5 px-space-sm py-1 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-body-sm text-body-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">format_list_bulleted</span>
+<span>Lista</span>
+</button>
+</div>
+</div>
+<!-- Action Group: Print, Automations & New Task -->
+<div class="flex items-center gap-space-xs">
+<button class="flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors font-body-sm text-body-sm" onclick="window.print()" title="Imprimir o exportar PDF (⌘P)" type="button">
+<span class="material-symbols-outlined text-[18px]">print</span>
+<span class="hidden sm:inline">Exportar / Imprimir</span>
+</button>
+<button class="hidden md:flex items-center gap-1 px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors font-body-sm text-body-sm" type="button">
+<span class="material-symbols-outlined text-[16px] text-tertiary">bolt</span>
+<span>Automatizaciones</span>
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-1 rounded text-primary">3</span>
+</button>
+<button class="flex items-center gap-1.5 px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:brightness-110 shadow-md transition-all active:scale-[0.98]" id="btn-nueva-tarea" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Nueva Tarea</span>
+<kbd class="hidden md:inline-flex items-center justify-center font-label-sm text-label-sm bg-on-primary/20 text-on-primary px-1.5 py-0.5 rounded text-[10px]">C</kbd>
+</button>
+</div>
+</div>
+<!-- Row 2: Comprehensive Multi-Param Filter Rail -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-1">
+<div class="flex flex-wrap items-center gap-space-xs flex-1 min-w-[280px]">
+<!-- Search bar inside workspace -->
+<div class="relative flex items-center min-w-[200px] max-w-xs">
+<span class="material-symbols-outlined absolute left-2.5 text-[16px] text-outline pointer-events-none">filter_list</span>
+<input class="w-full bg-surface-container-low text-on-surface placeholder:text-outline text-body-sm font-body-sm pl-8 pr-3 py-1.5 rounded-lg focus:outline-none focus:bg-surface-container transition-all" id="kanban-filter-input" placeholder="Filtrar por texto, etiqueta..." type="text"/>
+</div>
+<div class="h-4 w-px bg-surface-container-highest mx-0.5 hidden sm:block"></div>
+<!-- Filter by Assignees -->
+<div class="flex items-center gap-1">
+<span class="font-label-sm text-label-sm text-outline hidden lg:inline mr-1">Responsables:</span>
+<div class="flex items-center -space-x-1.5">
+<button class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container hover:scale-110 transition-transform font-label-sm text-label-sm flex items-center justify-center cursor-pointer shadow-sm" title="Filtrar por Ana Robles (AR)" type="button">
+              AR
+            </button>
+<button class="w-6 h-6 rounded-full bg-tertiary text-on-tertiary hover:scale-110 transition-transform font-label-sm text-label-sm flex items-center justify-center cursor-pointer shadow-sm" title="Filtrar por Juan Carlos (JC)" type="button">
+              JC
+            </button>
+<button class="w-6 h-6 rounded-full bg-surface-container-highest text-primary hover:scale-110 transition-transform font-label-sm text-label-sm flex items-center justify-center cursor-pointer shadow-sm" title="Filtrar por Ángel Raaz" type="button">
+              ÁR
+            </button>
+</div>
+</div>
+<div class="h-4 w-px bg-surface-container-highest mx-0.5 hidden sm:block"></div>
+<!-- Filter Tags Chips -->
+<div class="hidden sm:flex items-center gap-1 flex-wrap">
+<button class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">
+            #UI/UX
+          </button>
+<button class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">
+            #PWA
+          </button>
+<button class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">
+            #Backend
+          </button>
+<button class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">
+            #Bugs
+          </button>
+</div>
+</div>
+<!-- Group By & Sort By Dropdowns -->
+<div class="flex items-center gap-space-xs text-on-surface-variant">
+<div class="flex items-center gap-1 bg-surface-container-low px-2 py-1 rounded-lg cursor-pointer hover:bg-surface-container transition-colors">
+<span class="font-label-sm text-label-sm text-outline">Agrupar:</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Estado</span>
+<span class="material-symbols-outlined text-[14px]">expand_more</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-low px-2 py-1 rounded-lg cursor-pointer hover:bg-surface-container transition-colors">
+<span class="font-label-sm text-label-sm text-outline">Orden:</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Prioridad</span>
+<span class="material-symbols-outlined text-[14px]">swap_vert</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sprint Pulse & Diagnostic KPI Strip -->
+<div class="w-full px-margin pt-space-md pb-space-xs no-print">
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-wrap items-center justify-between gap-space-md shadow-sm">
+<!-- Left: Sprint Goal & Progress Gauge -->
+<div class="flex flex-wrap items-center gap-space-lg min-w-0">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-10 h-10 shrink-0">
+<svg class="w-10 h-10 -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="68, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute inset-0 flex items-center justify-center font-label-sm text-label-sm font-bold text-on-surface">68%</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-body-sm text-body-sm font-semibold text-on-surface">Progreso del Sprint</span>
+<span class="font-label-sm text-label-sm text-primary px-1.5 py-0.2 rounded-full bg-primary/10">12 / 18 cerradas</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">5 días hábiles restantes (Finaliza 24 Nov)</span>
+</div>
+</div>
+<div class="h-8 w-px bg-surface-container-high hidden md:block"></div>
+<!-- Velocity & Story Points -->
+<div class="flex items-center gap-space-md">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Velocidad</span>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">42</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">pts quemados</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Compromiso</span>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-sm text-headline-sm font-bold text-tertiary">56</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">pts totales</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Live Diagnostic Pills (PWA sync & System load) -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<div class="flex items-center gap-1.5 px-space-sm py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span>IndexedDB Synced (0 pend.)</span>
+</div>
+<div class="flex items-center gap-1.5 px-space-sm py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-primary">speed</span>
+<span>Cycle Time: 2.1d</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Kanban Board Canvas (Horizontal scrolling on desktop/tablet, wraps cleanly) -->
+<div class="w-full px-margin py-space-md overflow-x-auto kanban-viewport">
+<div class="flex items-start gap-gutter-board min-w-max pb-space-lg kanban-grid-print">
+<!-- COLUMN 1: POR HACER (BACKLOG ACTIVO) -->
+<div class="w-80 flex flex-col gap-space-sm shrink-0 kanban-col-print bg-surface-container-lowest p-space-sm rounded-xl shadow-sm">
+<!-- Col Header -->
+<div class="flex items-center justify-between px-space-xs py-1">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Por Hacer</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-surface-container-high text-on-surface-variant font-bold">6</span>
+</div>
+<div class="flex items-center gap-0.5">
+<button class="w-6 h-6 flex items-center justify-center rounded text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors" title="Añadir tarea rápida" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+<button class="w-6 h-6 flex items-center justify-center rounded text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Task List Stack -->
+<div class="flex flex-col gap-space-sm">
+<!-- Card TF-101 -->
+<div class="kanban-card-print bg-surface-container-low hover:bg-surface-container p-space-md rounded-lg shadow-sm cursor-grab active:cursor-grabbing hover:translate-y-[-2px] transition-all group flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-primary font-semibold">TF-101</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-primary/10 text-primary">UI/UX</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-tertiary" title="Prioridad Media">drag_handle</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-medium leading-snug">Auditoría de accesibilidad WCAG AA en vista completa</p>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-outline">calendar_today</span> 22 Nov
+                </span>
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-1 rounded text-outline font-bold">3 pts</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-sm text-label-sm font-semibold" title="Ana Robles">
+                AR
+              </div>
+</div>
+</div>
+<!-- Card TF-104 -->
+<div class="kanban-card-print bg-surface-container-low hover:bg-surface-container p-space-md rounded-lg shadow-sm cursor-grab active:cursor-grabbing hover:translate-y-[-2px] transition-all group flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-primary font-semibold">TF-104</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-tertiary-container/20 text-tertiary">Backend</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-outline" title="Prioridad Baja">expand_more</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-medium leading-snug">Documentación técnica de Webhooks y API REST v2</p>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-outline">calendar_today</span> 25 Nov
+                </span>
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-1 rounded text-outline font-bold">5 pts</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-surface-container-highest text-primary flex items-center justify-center font-label-sm text-label-sm font-semibold" title="Ángel Raaz">
+                ÁR
+              </div>
+</div>
+</div>
+<!-- Card TF-108 -->
+<div class="kanban-card-print bg-surface-container-low hover:bg-surface-container p-space-md rounded-lg shadow-sm cursor-grab active:cursor-grabbing hover:translate-y-[-2px] transition-all group flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-primary font-semibold">TF-108</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-secondary-container/30 text-secondary">PWA</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-error font-bold" title="Prioridad Alta">priority_high</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-medium leading-snug">Pruebas unitarias de sincronización PWA con IndexedDB offline</p>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-outline">checklist</span> 0/4
+                </span>
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-1 rounded text-outline font-bold">8 pts</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center font-label-sm text-label-sm font-semibold" title="Juan Carlos">
+                JC
+              </div>
+</div>
+</div>
+<!-- Quick card generator placeholder slot -->
+<button class="flex items-center justify-center gap-1.5 py-2 px-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors font-body-sm text-body-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>Añadir tarea rápida</span>
+</button>
+</div>
+</div>
+<!-- COLUMN 2: EN PROGRESO (WIP CONTROLADO) -->
+<div class="w-80 flex flex-col gap-space-sm shrink-0 kanban-col-print bg-surface-container-lowest p-space-sm rounded-xl shadow-sm">
+<!-- Col Header with WIP Guard -->
+<div class="flex items-center justify-between px-space-xs py-1">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">En Progreso</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-primary/20 text-primary font-bold">3 / 5 WIP</span>
+</div>
+<div class="flex items-center gap-0.5">
+<button class="w-6 h-6 flex items-center justify-center rounded text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+</button>
+</div>
+</div>
+<!-- Task List Stack -->
+<div class="flex flex-col gap-space-sm">
+<!-- Card TF-089 (Hero task) -->
+<div class="kanban-card-print bg-surface-container-low hover:bg-surface-container p-space-md rounded-lg shadow-sm cursor-grab active:cursor-grabbing hover:translate-y-[-2px] transition-all group flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-primary font-semibold">TF-089</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-primary/10 text-primary">UI/UX</span>
+</div>
+<span class="font-label-sm text-label-sm px-1 rounded bg-error-container text-on-error-container font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]">keyboard_double_arrow_up</span> Urgente
+              </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-semibold leading-snug">Rediseño responsivo para monitores anchos de PC y tablets</p>
+<!-- Visual Attachment Preview -->
+<div class="relative w-full h-24 rounded bg-cover bg-center overflow-hidden my-1 shadow-inner" data-alt="Dark UI design canvas showing responsive Kanban board columns, sleek typography, deep slate container backgrounds, and violet progress badges for modern developers." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBJVOYjNgZlPX9jnfqVP7RoGEgl4ag5HkclrMPMBXLWvXQGKtu6PxuR2TQs1qg1NXbgFAm7R7DlIxJtcYSe6sDoVGnS4RsFLI7bVmMriGC_fQ6WECtItLiacwggacmIoElZa52NP2pVIr92L1Pi1j_kDWtJ5L2hmpetFBgisgHynAr4QAx8_aRTqxWu1E6XOodncfqhXoLrqViDG9Oi3Y-H7cYN5aUrirMxMwAYGDFD')">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 via-transparent to-transparent flex items-end p-2">
+<span class="font-label-sm text-label-sm text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">attachment</span> 3 mocks listos
+                </span>
+</div>
+</div>
+<!-- Subtask progress bar -->
+<div class="flex flex-col gap-1 py-1">
+<div class="flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant">
+<span>Subtareas</span>
+<span class="font-bold text-on-surface">4 / 5</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full w-[80%]"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-1 rounded text-primary font-bold">5 pts</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px] text-outline">chat</span> 8
+                </span>
+</div>
+<!-- Multi-assignee avatars -->
+<div class="flex items-center -space-x-1.5">
+<div class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-sm text-label-sm font-semibold">AR</div>
+<div class="w-6 h-6 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center font-label-sm text-label-sm font-semibold">JC</div>
+</div>
+</div>
+</div>
+<!-- Card TF-092 -->
+<div class="kanban-card-print bg-surface-container-low hover:bg-surface-container p-space-md rounded-lg shadow-sm cursor-grab active:cursor-grabbing hover:translate-y-[-2px] transition-all group flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-primary font-semibold">TF-092</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-secondary/15 text-secondary">Frontend</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-error" title="Prioridad Alta">keyboard_arrow_up</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-medium leading-snug">Implementar soporte de impresión profesional con @media print y limpieza de DOM</p>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[13px]">check_box</span> 2/2 listo
+                </span>
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-1 rounded text-outline font-bold">2 pts</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-sm text-label-sm font-semibold" title="Ana Robles">
+                AR
+              </div>
+</div>
+</div>
+<!-- Card TF-095 -->
+<div class="kanban-card-print bg-surface-container-low hover:bg-surface-container p-space-md rounded-lg shadow-sm cursor-grab active:cursor-grabbing hover:translate-y-[-2px] transition-all group flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-primary font-semibold">TF-095</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-secondary-container/30 text-secondary">PWA</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-error" title="Prioridad Alta">keyboard_arrow_up</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-medium leading-snug">Caché de Service Worker en modo Offline para activos estáticos v1.5</p>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-outline">checklist</span> 6/8
+                </span>
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-1 rounded text-outline font-bold">8 pts</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center font-label-sm text-label-sm font-semibold" title="Juan Carlos">
+                JC
+              </div>
+</div>
+</div>
+</div>
+</div>
+<!-- COLUMN 3: EN REVISIÓN (PRs & QA) -->
+<div class="w-80 flex flex-col gap-space-sm shrink-0 kanban-col-print bg-surface-container-lowest p-space-sm rounded-xl shadow-sm">
+<!-- Col Header -->
+<div class="flex items-center justify-between px-space-xs py-1">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">En Revisión</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-surface-container-high text-on-surface-variant font-bold">2</span>
+</div>
+<div class="flex items-center gap-0.5">
+<button class="w-6 h-6 flex items-center justify-center rounded text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Task List Stack -->
+<div class="flex flex-col gap-space-sm">
+<!-- Card TF-084 -->
+<div class="kanban-card-print bg-surface-container-low hover:bg-surface-container p-space-md rounded-lg shadow-sm cursor-grab active:cursor-grabbing hover:translate-y-[-2px] transition-all group flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-primary font-semibold">TF-084</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-primary/10 text-primary">UI/UX</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-tertiary">drag_handle</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-medium leading-snug">Componente de interruptor ultrarrápido Dark / Light mode con persistencia local</p>
+<!-- PR Pill -->
+<div class="flex items-center gap-1.5 px-2 py-1 rounded bg-surface-container font-label-sm text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-primary">merge</span>
+<span class="font-medium text-primary">PR #42</span>
+<span>· Aprobada por 2 revisores</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-1 rounded text-outline font-bold">2 pts</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-sm text-label-sm font-semibold" title="Ana Robles">
+                AR
+              </div>
+</div>
+</div>
+<!-- Card TF-087 -->
+<div class="kanban-card-print bg-surface-container-low hover:bg-surface-container p-space-md rounded-lg shadow-sm cursor-grab active:cursor-grabbing hover:translate-y-[-2px] transition-all group flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-primary font-semibold">TF-087</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-tertiary-container/20 text-tertiary">Backend</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-error">keyboard_arrow_up</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-medium leading-snug">Endpoint de exportación de reportes ejecutivos a formato PDF vectorial</p>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-outline">description</span> Doc adjunta
+                </span>
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-1 rounded text-outline font-bold">5 pts</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-surface-container-highest text-primary flex items-center justify-center font-label-sm text-label-sm font-semibold" title="Ángel Raaz">
+                ÁR
+              </div>
+</div>
+</div>
+<!-- Active drop zone target representation -->
+<div class="rounded-lg p-3 text-center bg-primary/5 flex items-center justify-center gap-2 text-primary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">move_to_inbox</span>
+<span>Arrastrar tarea para revisión</span>
+</div>
+</div>
+</div>
+<!-- COLUMN 4: COMPLETADO (CERRADAS) -->
+<div class="w-80 flex flex-col gap-space-sm shrink-0 kanban-col-print bg-surface-container-lowest p-space-sm rounded-xl shadow-sm">
+<!-- Col Header -->
+<div class="flex items-center justify-between px-space-xs py-1">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Completado</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-primary-container text-on-primary-container font-bold">18</span>
+</div>
+<button class="font-label-sm text-label-sm text-outline hover:text-on-surface transition-colors" title="Archivar tareas resueltas" type="button">
+            Archivar
+          </button>
+</div>
+<!-- Task List Stack -->
+<div class="flex flex-col gap-space-sm">
+<!-- Card TF-072 -->
+<div class="kanban-card-print bg-surface-container-low opacity-90 hover:opacity-100 p-space-md rounded-lg shadow-sm cursor-pointer transition-all flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-outline line-through">TF-072</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-primary/10 text-primary">UI/UX</span>
+</div>
+<span class="material-symbols-outlined text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface line-through decoration-outline font-medium leading-snug">Vista interactiva de Cronograma (Gantt) con dependencias</p>
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Cerrada hace 2d</span>
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-1 rounded text-outline font-bold">8 pts</span>
+</div>
+</div>
+<!-- Card TF-068 -->
+<div class="kanban-card-print bg-surface-container-low opacity-90 hover:opacity-100 p-space-md rounded-lg shadow-sm cursor-pointer transition-all flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-outline line-through">TF-068</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-primary/10 text-primary">UI/UX</span>
+</div>
+<span class="material-symbols-outlined text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface line-through decoration-outline font-medium leading-snug">Vista de Calendario interactivo con filtros de sprint mensual</p>
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Cerrada hace 4d</span>
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-1 rounded text-outline font-bold">5 pts</span>
+</div>
+</div>
+<!-- Card TF-055 -->
+<div class="kanban-card-print bg-surface-container-low opacity-90 hover:opacity-100 p-space-md rounded-lg shadow-sm cursor-pointer transition-all flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-outline line-through">TF-055</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-secondary-container/30 text-secondary">PWA</span>
+</div>
+<span class="material-symbols-outlined text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface line-through decoration-outline font-medium leading-snug">Arquitectura base PWA y manifiesto de aplicación v1.5</p>
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Cerrada hace 1 sem</span>
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-1 rounded text-outline font-bold">13 pts</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Add Column Button Trigger -->
+<div class="w-72 shrink-0 pt-1">
+<button class="w-full h-12 flex items-center justify-center gap-2 rounded-xl bg-surface-container-lowest hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-all font-body-sm text-body-sm font-medium shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Añadir Columna</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Docked Keyboard Shortcuts & Productivity Helper -->
+<div class="sticky bottom-0 z-30 w-full bg-surface-container-lowest/90 backdrop-blur-md px-margin py-2 flex items-center justify-between gap-space-md text-on-surface-variant font-label-sm text-label-sm shadow-[0_-2px_8px_rgba(0,0,0,0.2)] no-print">
+<div class="flex items-center gap-space-md flex-wrap">
+<span class="flex items-center gap-1.5">
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface text-[10px]">C</kbd>
+<span>Crear tarea</span>
+</span>
+<span class="flex items-center gap-1.5">
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface text-[10px]">⌘</kbd>
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface text-[10px]">K</kbd>
+<span>Búsqueda global</span>
+</span>
+<span class="flex items-center gap-1.5 hidden sm:flex">
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface text-[10px]">F</kbd>
+<span>Filtrar</span>
+</span>
+<span class="flex items-center gap-1.5 hidden md:flex">
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface text-[10px]">⌘</kbd>
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface text-[10px]">P</kbd>
+<span>Imprimir reporte</span>
+</span>
+</div>
+<div class="flex items-center gap-space-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="hidden sm:inline">Workspace activo: AJRC Core v1.5</span>
+</div>
+</div>
+<!-- Micro-interaction Script for Shortcut keys & Live Filter Feedback -->
+<script>
+    document.addEventListener('keydown', function(e) {
+      if ((e.key === 'c' || e.key === 'C') && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+        e.preventDefault();
+        const input = document.getElementById('kanban-filter-input');
+        if (input) {
+          input.focus();
+          input.placeholder = "Escribe el nombre de la nueva tarea y presiona Enter...";
+        }
+      }
+      if ((e.key === 'f' || e.key === 'F') && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+        e.preventDefault();
+        const input = document.getElementById('kanban-filter-input');
+        if (input) input.focus();
+      }
+    });
+
+    const filterInput = document.getElementById('kanban-filter-input');
+    if (filterInput) {
+      filterInput.addEventListener('input', function(e) {
+        const query = e.target.value.toLowerCase().trim();
+        const cards = document.querySelectorAll('.kanban-card-print');
+        cards.forEach(card => {
+          const text = card.innerText.toLowerCase();
+          if (query === '' || text.includes(query)) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    }
+  </script>
+</div></main></div></body></html>

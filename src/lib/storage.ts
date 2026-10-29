@@ -48,6 +48,25 @@ export function getInitialBoards(): Board[] {
     description: 'Gestor de sprint, entregables y objetivos clave.',
     backgroundColor: '#0f172a',
     accentColor: '#6366f1',
+    inviteCode: 'TASK-2100',
+    members: [
+      {
+        id: 'member-owner',
+        name: 'Tú (Líder de Proyecto)',
+        email: 'organizador@taskforge.app',
+        role: 'owner',
+        avatarColor: '#6366f1',
+        joinedAt: todayStr,
+      },
+      {
+        id: 'member-collab',
+        name: 'Carlos Ruiz',
+        email: 'carlos@empresa.com',
+        role: 'member',
+        avatarColor: '#10b981',
+        joinedAt: todayStr,
+      },
+    ],
     columns: [
       {
         id: 'col-1',
@@ -61,6 +80,8 @@ export function getInitialBoards(): Board[] {
             columnId: 'col-1',
             text: 'Diseñar interfaz minimalista con paleta vibrante',
             description: 'Aplicar micro-animaciones fluidas, paleta con colores enérgicos y excelente legibilidad.',
+            startDate: todayStr,
+            startTime: '09:00',
             dueDate: todayStr,
             dueTime: '18:00',
             completed: false,

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="h-full dark" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-secondary-container": "#e0e7ff", "surface-dim": "#0b0f19", "secondary-fixed-dim": "#a5b4fc", "on-secondary-fixed": "#1e1b4b", "on-secondary-fixed-variant": "#3730a3", "on-primary-fixed-variant": "#312e81", "on-background": "#f8fafc", "surface-tint": "#818cf8", "surface": "#0b0f19", "secondary-fixed": "#e0e7ff", "on-primary-container": "#ffffff", "on-surface-variant": "#94a3b8", "secondary": "#6366f1", "primary-container": "#4f46e5", "on-primary": "#ffffff", "surface-container-high": "#1e293b", "tertiary-fixed-dim": "#67e8f9", "surface-bright": "#1e293b", "surface-container-lowest": "#070b14", "on-surface": "#f8fafc", "primary-fixed-dim": "#c7d2fe", "inverse-surface": "#f8fafc", "error-container": "#451a1a", "on-error": "#ffffff", "surface-container-highest": "#283548", "background": "#0b0f19", "surface-container": "#131b2a", "surface-variant": "#1e293b", "primary": "#6366f1", "tertiary-container": "#0891b2", "error": "#f87171", "on-primary-fixed": "#1e1b4b", "surface-container-low": "#0f172a", "on-tertiary-fixed-variant": "#164e63", "primary-fixed": "#e0e7ff", "tertiary": "#22d3ee", "outline-variant": "rgba(255, 255, 255, 0.08)", "outline": "#64748b", "on-tertiary": "#042f2e", "secondary-container": "#4338ca", "on-tertiary-container": "#ecfeff", "on-secondary": "#ffffff", "tertiary-fixed": "#cffafe", "on-error-container": "#fca5a5", "inverse-on-surface": "#0f172a", "on-tertiary-fixed": "#083344", "inverse-primary": "#4f46e5" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-lg": "1rem", "space-xl": "1.5rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "margin": "1rem", "gutter": "1rem", "space-md": "0.75rem" }, fontFamily: { "label-sm": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "body-md": ["Inter"], "headline-sm": ["Plus Jakarta Sans"], "body-sm": ["Inter"], "body-lg": ["Inter"] }, fontSize: { "label-sm": ["10px", { lineHeight: "12px", letterSpacing: "0.04em", fontWeight: "700" }], "label-md": ["11px", { lineHeight: "14px", fontWeight: "600" }], "headline-md": ["20px", { lineHeight: "28px", fontWeight: "700" }], "headline-lg": ["28px", { lineHeight: "36px", fontWeight: "700" }], "label-lg": ["13px", { lineHeight: "16px", fontWeight: "600" }], "body-md": ["13px", { lineHeight: "18px", fontWeight: "400" }], "headline-sm": ["16px", { lineHeight: "24px", fontWeight: "600" }], "body-sm": ["12px", { lineHeight: "16px", fontWeight: "400" }], "body-lg": ["15px", { lineHeight: "22px", fontWeight: "400" }] } } } };</script><style>@layer base{html,body{width:100vw;min-height:100%;margin:0;padding:0;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background text-on-surface antialiased selection:bg-primary/30 selection:text-white"><header class="fixed top-0 inset-x-0 z-50 bg-[#0b0f19]/90 backdrop-blur-xl border-b border-white/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.5)] pt-safe"><div class="h-36 flex flex-col justify-between px-space-lg py-space-sm"><div class="flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-[0_0_16px_rgba(99,102,241,0.45)] border border-indigo-400/30 flex-shrink-0"><span class="material-symbols-outlined text-white text-[20px]">construction</span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1.5"><span class="font-headline-sm text-headline-sm text-white font-extrabold tracking-tight truncate">TaskForge</span><span class="px-1.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 font-label-sm text-label-sm font-bold uppercase tracking-wider">v1.5</span></div><span class="font-label-sm text-label-sm text-slate-400 font-medium tracking-normal truncate">by AJRC SERVICIOS</span></div></div><div class="flex items-center gap-1 flex-shrink-0"><button aria-label="Buscar" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 active:scale-95 transition-all"><span class="material-symbols-outlined text-[22px]">search</span></button><button aria-label="Notificaciones" class="relative w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 active:scale-95 transition-all"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2 right-2 w-4 h-4 rounded-full bg-rose-500 text-white font-label-sm text-label-sm flex items-center justify-center leading-none font-bold ring-2 ring-[#0b0f19]">2</span></button><div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center ml-1 ring-2 ring-indigo-400/40 shadow-[0_0_12px_rgba(99,102,241,0.4)]"><span class="material-symbols-outlined text-white text-[18px]">person</span></div></div></div><div class="flex items-center justify-between gap-space-sm overflow-x-auto no-scrollbar"><div class="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900/90 border border-white/[0.08]"><a class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-600 text-white shadow-[0_0_16px_rgba(99,102,241,0.4)] font-label-md text-label-md transition-all font-semibold" data-path="tablero" href="#"><span class="material-symbols-outlined text-[16px]">view_kanban</span><span>Tablero</span></a><a class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 font-label-md text-label-md transition-all" data-path="calendario" href="#"><span class="material-symbols-outlined text-[16px]">calendar_today</span><span>Calendario</span></a><a class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 font-label-md text-label-md transition-all" data-path="cronograma" href="#"><span class="material-symbols-outlined text-[16px]">timeline</span><span>Cronograma</span></a></div><div class="flex items-center gap-1 flex-shrink-0"><button aria-label="Filtros" class="h-8 px-2.5 flex items-center gap-1 rounded-lg bg-slate-800/90 border border-white/[0.08] text-slate-300 font-label-md text-label-md hover:bg-slate-700/80 hover:text-white transition-all"><span class="material-symbols-outlined text-[16px]">filter_list</span><span>Filtro</span></button><button aria-label="Añadir Columna" class="h-8 px-2.5 flex items-center gap-1 rounded-lg bg-indigo-500/20 border border-indigo-500/40 text-indigo-300 font-label-md text-label-md hover:bg-indigo-500/30 hover:text-white transition-all"><span class="material-symbols-outlined text-[16px]">add</span><span>Columna</span></button></div></div><div class="flex items-center justify-between text-slate-400 px-0.5"><div class="flex items-center gap-1.5 min-w-0"><span class="material-symbols-outlined text-indigo-400 text-[18px]">rocket_launch</span><span class="font-label-lg text-label-lg text-slate-200 font-semibold truncate">Proyecto Principal</span><span class="material-symbols-outlined text-[16px] text-slate-500">expand_more</span></div><span class="font-label-sm text-label-sm font-semibold tracking-wider uppercase text-slate-500">Tablero</span></div></div></header><main class="flex flex-col relative w-full pt-36 pb-24 bg-[#0b0f19] min-h-screen"><div class="flex flex-col w-full px-margin-mobile pb-space-xl gap-space-lg">
+<!-- Header Contextual -->
+<div class="flex flex-col gap-space-xs mt-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs px-2 py-1 rounded-full bg-secondary-container text-on-secondary-container">
+<span class="material-symbols-outlined text-[14px]">rocket_launch</span>
+<span class="font-label-sm text-label-sm">Proyecto Principal</span>
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-high px-2 py-0.5 rounded">ID: TF-CORE</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Ajustes del Proyecto</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Configura identidad, miembros, reglas de tablero y accesos de tu espacio de trabajo.</p>
+</div>
+<!-- Banner de Sincronización Local / PWA -->
+<div class="flex items-center justify-between p-space-md rounded-xl bg-surface-container-low shadow-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">cloud_done</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Sincronización PWA Activa</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Último snapshot guardado hace 3m</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-semibold">v1.5.8</span>
+</div>
+<!-- SECCIÓN 1: Información General -->
+<section class="flex flex-col gap-space-md p-space-lg rounded-xl bg-surface-container shadow-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Información General</h2>
+</div>
+<!-- Nombre del Proyecto -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Nombre del Proyecto</label>
+<div class="relative flex items-center">
+<input class="w-full bg-surface-container-low text-on-surface rounded-lg px-space-md py-2.5 font-body-md text-body-md focus:bg-surface-container-high outline-none transition-colors" type="text" value="Proyecto Principal"/>
+<span class="material-symbols-outlined absolute right-3 text-on-surface-variant text-[18px]">drive_file_rename_outline</span>
+</div>
+</div>
+<!-- Prefijo y Clave de Tareas -->
+<div class="grid grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Prefijo de Clave</label>
+<div class="flex items-center bg-surface-container-low rounded-lg px-space-md py-2.5">
+<span class="font-label-md text-label-md text-primary font-bold">TF</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant ml-2 truncate">-(001)</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Siguiente Tarea</label>
+<div class="flex items-center bg-surface-container-low rounded-lg px-space-md py-2.5">
+<span class="font-label-md text-label-md text-on-surface font-mono">#TF-184</span>
+</div>
+</div>
+</div>
+<!-- Selector de Icono & Acento Visual -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant">Identidad Visual y Tonal</label>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm">
+<div class="w-11 h-11 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[24px]">rocket_launch</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Índigo Orbital</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Primario TF</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-6 h-6 rounded-full bg-primary ring-2 ring-primary-container cursor-pointer"></span>
+<span class="w-6 h-6 rounded-full bg-tertiary opacity-70 cursor-pointer"></span>
+<span class="w-6 h-6 rounded-full bg-secondary-container opacity-70 cursor-pointer"></span>
+<button class="w-7 h-7 rounded-lg bg-surface-container-high text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">palette</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Descripción del Proyecto -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Descripción Operativa</label>
+<textarea class="w-full bg-surface-container-low text-on-surface rounded-lg p-space-md font-body-md text-body-md focus:bg-surface-container-high outline-none resize-none transition-colors" rows="3">Plataforma de gestión ágil de tareas y sprints para AJRC SERVICIOS. Ecosistema de control y despliegue continuo.</textarea>
+</div>
+<!-- Segmentación de Visibilidad -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant">Visibilidad del Espacio</label>
+<div class="grid grid-cols-2 gap-space-xs p-1 rounded-xl bg-surface-container-low">
+<button class="flex items-center justify-center gap-1.5 py-2 rounded-lg bg-secondary-container text-on-secondary-container font-label-md text-label-md shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span>Privado</span>
+</button>
+<button class="flex items-center justify-center gap-1.5 py-2 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">groups</span>
+<span>Equipo AJRC</span>
+</button>
+</div>
+</div>
+</section>
+<!-- SECCIÓN 2: Miembros y Permisos -->
+<section class="flex flex-col gap-space-md p-space-lg rounded-xl bg-surface-container shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">badge</span>
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Equipo &amp; Permisos</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant">4 colaboradores activos</span>
+</div>
+</div>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-high text-primary hover:bg-surface-bright font-label-sm text-label-sm shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px]">person_add</span>
+<span>Invitar</span>
+</button>
+</div>
+<!-- Lista de Miembros -->
+<div class="flex flex-col gap-space-xs">
+<!-- Miembro 1 (Tú) -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="relative w-9 h-9 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-label-md text-label-md font-bold flex-shrink-0">
+<span>AR</span>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-on-surface truncate">Ángel Raaz</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">(Tú)</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Lead Fullstack Architect</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm flex-shrink-0">Admin</span>
+</div>
+<!-- Miembro 2 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center font-label-md text-label-md font-bold flex-shrink-0">
+<span>JC</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Juan Carlos</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Frontend Senior</span>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Editor</span>
+<button class="w-7 h-7 flex items-center justify-center text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined text-[16px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Miembro 3 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-9 h-9 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-label-md text-label-md font-bold flex-shrink-0">
+<span>AR</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Ana Robles</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Lead Product Designer</span>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Editor</span>
+<button class="w-7 h-7 flex items-center justify-center text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined text-[16px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Miembro 4 (Bot) -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-9 h-9 rounded-full bg-surface-container-high text-tertiary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md text-on-surface truncate">AJRC Bot</span>
+<span class="material-symbols-outlined text-primary text-[14px]">bolt</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">CI/CD Webhook Service</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-tertiary font-label-sm text-label-sm flex-shrink-0">Bot</span>
+</div>
+</div>
+<!-- Enlace de Invitación Rápido -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-lowest">
+<div class="flex items-center gap-space-xs text-on-surface-variant min-w-0">
+<span class="material-symbols-outlined text-[16px]">link</span>
+<span class="font-label-sm text-label-sm truncate">taskforge.ajrc.app/join/tf-core-9102</span>
+</div>
+<button class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm hover:bg-surface-bright flex items-center gap-1 transition-colors flex-shrink-0">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+<span>Copiar</span>
+</button>
+</div>
+</section>
+<!-- SECCIÓN 3: Flujos de Trabajo & Columnas Kanban -->
+<section class="flex flex-col gap-space-md p-space-lg rounded-xl bg-surface-container shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">view_week</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Columnas &amp; Flujo</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4 Estados Activos</span>
+</div>
+<!-- Lista Reordenable de Columnas -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">drag_indicator</span>
+<span class="w-2.5 h-2.5 rounded-full bg-outline"></span>
+<span class="font-label-md text-label-md text-on-surface">Por Hacer</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">6 tareas</span>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">drag_indicator</span>
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="font-label-md text-label-md text-on-surface">En Progreso</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary bg-secondary-container px-2 py-0.5 rounded">Max: 5 WIP</span>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">drag_indicator</span>
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span class="font-label-md text-label-md text-on-surface">En Revisión</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">2 tareas</span>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">drag_indicator</span>
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed-dim"></span>
+<span class="font-label-md text-label-md text-on-surface">Completado</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">18 cerradas</span>
+</div>
+</div>
+<!-- Reglas de Trabajo y Controles de Estimación -->
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<!-- Toggle 1: WIP Limits -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex flex-col pr-space-sm">
+<span class="font-label-md text-label-md text-on-surface">Límite WIP (Work in Progress)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Alerta al superar tareas simultáneas por persona</span>
+</div>
+<button class="w-11 h-6 rounded-full bg-secondary-container relative flex items-center px-1 flex-shrink-0 transition-colors" type="button">
+<span class="w-4 h-4 rounded-full bg-primary-fixed shadow-sm translate-x-5 transition-transform"></span>
+</button>
+</div>
+<!-- Toggle 2: Estimaciones -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex flex-col pr-space-sm">
+<span class="font-label-md text-label-md text-on-surface">Puntos de Historia &amp; Horas</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Habilitar desglose Fibonacci en tarjetas</span>
+</div>
+<button class="w-11 h-6 rounded-full bg-secondary-container relative flex items-center px-1 flex-shrink-0 transition-colors" type="button">
+<span class="w-4 h-4 rounded-full bg-primary-fixed shadow-sm translate-x-5 transition-transform"></span>
+</button>
+</div>
+</div>
+</section>
+<!-- SECCIÓN 4: Notificaciones y Sincronización -->
+<section class="flex flex-col gap-space-md p-space-lg rounded-xl bg-surface-container shadow-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">sync_saved_locally</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Notificaciones &amp; Red</h2>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Push Notifications -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">notifications_active</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Notificaciones Push PWA</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Alertas de asignaciones e hitos</span>
+</div>
+</div>
+<button class="w-11 h-6 rounded-full bg-secondary-container relative flex items-center px-1 flex-shrink-0 transition-colors" type="button">
+<span class="w-4 h-4 rounded-full bg-primary-fixed shadow-sm translate-x-5 transition-transform"></span>
+</button>
+</div>
+<!-- Service Worker / Offline Engine -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">wifi_off</span>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-on-surface">Modo Offline Prioritario</span>
+<span class="px-1.5 py-0.2 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm rounded">IndexedDB</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sincroniza al restaurar conectividad</span>
+</div>
+</div>
+<button class="w-11 h-6 rounded-full bg-secondary-container relative flex items-center px-1 flex-shrink-0 transition-colors" type="button">
+<span class="w-4 h-4 rounded-full bg-primary-fixed shadow-sm translate-x-5 transition-transform"></span>
+</button>
+</div>
+<!-- Webhook Integrations -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">hub</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Webhook Discord / Slack</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Conectado a #dev-deployments</span>
+</div>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+</div>
+</div>
+</section>
+<!-- SECCIÓN 5: Zona de Peligro -->
+<section class="flex flex-col gap-space-md p-space-lg rounded-xl bg-surface-container-low shadow-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-error text-[20px]">warning</span>
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-error">Zona Restringida</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Acciones críticas irreversibles sobre este repositorio</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Archivar -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container">
+<div class="flex flex-col pr-space-sm">
+<span class="font-label-md text-label-md text-on-surface">Archivar Proyecto</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Congelar tablero en modo solo lectura</span>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-highest text-on-surface font-label-sm text-label-sm hover:bg-surface-bright flex-shrink-0 transition-colors" type="button">
+          Archivar
+        </button>
+</div>
+<!-- Eliminar Definitivamente -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-error-container/30">
+<div class="flex flex-col pr-space-sm">
+<span class="font-label-md text-label-md text-error">Eliminar Proyecto</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Borrado permanente de tareas, sprints y logs</span>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-error text-on-error font-label-sm text-label-sm font-bold flex-shrink-0 hover:opacity-90 active:scale-95 transition-all" type="button">
+          Eliminar
+        </button>
+</div>
+</div>
+</section>
+<!-- Acciones Finales Guardado -->
+<div class="sticky bottom-2 z-20 flex items-center gap-space-sm p-space-xs rounded-xl bg-surface-container-high/95 backdrop-blur-md shadow-xl mt-space-xs">
+<button class="w-1/3 py-2.5 rounded-lg bg-surface-container-low text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" type="button">
+      Descartar
+    </button>
+<button class="w-2/3 py-2.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md font-bold flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all" id="save-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span>Guardar Cambios</span>
+</button>
+</div>
+</div>
+<script>
+  // Micro-interacción háptica de confirmación al guardar
+  const saveBtn = document.getElementById('save-btn');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', () => {
+      const originalText = saveBtn.innerHTML;
+      saveBtn.classList.replace('bg-primary-container', 'bg-tertiary-container');
+      saveBtn.innerHTML = `
+        <span class="material-symbols-outlined text-[18px] animate-spin">sync</span>
+        <span>Guardando en Servidor...</span>
+      `;
+      setTimeout(() => {
+        saveBtn.innerHTML = `
+          <span class="material-symbols-outlined text-[18px]">done_all</span>
+          <span>¡Ajustes Actualizados!</span>
+        `;
+        setTimeout(() => {
+          saveBtn.classList.replace('bg-tertiary-container', 'bg-primary-container');
+          saveBtn.innerHTML = originalText;
+        }, 1500);
+      }, 700);
+    });
+  }
+</script></main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-[#0b0f19]/90 backdrop-blur-xl border-t border-white/[0.08] shadow-[0_-4px_20px_rgba(0,0,0,0.6)]" data-active-classes="text-indigo-400 font-semibold"><div class="flex justify-around items-center h-16 px-space-sm"><a class="flex flex-col items-center justify-center gap-1 w-14 h-12 text-slate-400 hover:text-slate-200 transition-all" data-path="tablero" href="#"><span class="material-symbols-outlined text-[22px]">view_kanban</span><span class="font-label-sm text-label-sm">Tablero</span></a><a class="flex flex-col items-center justify-center gap-1 w-14 h-12 text-slate-400 hover:text-slate-200 transition-all" data-path="mis-tareas" href="#"><span class="material-symbols-outlined text-[22px]">check_box</span><span class="font-label-sm text-label-sm">Mis Tareas</span></a><div class="relative -top-3 flex items-center justify-center"><a class="w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-500 text-white flex items-center justify-center shadow-[0_0_20px_rgba(99,102,241,0.5)] border border-indigo-400/40 active:scale-95 transition-transform" data-path="crear-tarea" href="#"><span class="material-symbols-outlined text-[26px]">add</span></a></div><a class="flex flex-col items-center justify-center gap-1 w-14 h-12 text-slate-400 hover:text-slate-200 transition-all" data-path="calendario" href="#"><span class="material-symbols-outlined text-[22px]">calendar_month</span><span class="font-label-sm text-label-sm">Agenda</span></a><a class="flex flex-col items-center justify-center gap-1 w-14 h-12 text-slate-400 hover:text-slate-200 transition-all" data-path="ajustes" href="#"><span class="material-symbols-outlined text-[22px]">settings</span><span class="font-label-sm text-label-sm">Ajustes</span></a></div></nav></body></html>

@@ -5,23 +5,26 @@ import {
   Calendar,
   Clock,
   CheckSquare,
-  Plus,
   Trash2,
   Tag,
   Palette,
   ArrowRightLeft,
+  Copy,
+  Users,
 } from 'lucide-react';
-import { TaskCard, BoardColumn, LabelItem, ChecklistItem } from '../types';
+import { TaskCard, BoardColumn, LabelItem, ChecklistItem, BoardMember } from '../types';
 import confetti from 'canvas-confetti';
 import { playSuccessChime } from '../lib/sound';
 
 interface CardDetailModalProps {
   card: TaskCard | null;
   columns: BoardColumn[];
+  members?: BoardMember[];
   isOpen: boolean;
   onClose: () => void;
   onSave: (updatedCard: TaskCard) => void;
   onDelete: (cardId: string) => void;
+  onCopy?: (card: TaskCard, targetColumnId: string) => void;
 }
 
 const AVAILABLE_PALETTES = [
@@ -36,20 +39,25 @@ const AVAILABLE_PALETTES = [
 export const CardDetailModal: React.FC<CardDetailModalProps> = ({
   card,
   columns,
+  members = [],
   isOpen,
   onClose,
   onSave,
   onDelete,
+  onCopy,
 }) => {
   if (!isOpen || !card) return null;
 
   const [text, setText] = useState(card.text);
   const [description, setDescription] = useState(card.description || '');
   const [completed, setCompleted] = useState(card.completed);
+  const [startDate, setStartDate] = useState(card.startDate || '');
+  const [startTime, setStartTime] = useState(card.startTime || '');
   const [dueDate, setDueDate] = useState(card.dueDate || '');
   const [dueTime, setDueTime] = useState(card.dueTime || '');
   const [columnId, setColumnId] = useState(card.columnId);
   const [colorTag, setColorTag] = useState(card.colorTag || 'indigo');
+  const [assigneeId, setAssigneeId] = useState(card.assigneeId || '');
   const [checklist, setChecklist] = useState<ChecklistItem[]>(card.checklist || []);
   const [labels, setLabels] = useState<LabelItem[]>(card.labels || []);
 
@@ -61,13 +69,20 @@ export const CardDetailModal: React.FC<CardDetailModalProps> = ({
     setText(card.text);
     setDescription(card.description || '');
     setCompleted(card.completed);
+    setStartDate(card.startDate || '');
+    setStartTime(card.startTime || '');
     setDueDate(card.dueDate || '');
     setDueTime(card.dueTime || '');
     setColumnId(card.columnId);
     setColorTag(card.colorTag || 'indigo');
+    setAssigneeId(card.assigneeId || '');
     setChecklist(card.checklist || []);
     setLabels(card.labels || []);
   }, [card]);
+
+  const activePalette =
+    AVAILABLE_PALETTES.find((p) => p.id === colorTag) ||
+    AVAILABLE_PALETTES[0];
 
   const handleToggleComplete = () => {
     const nextVal = !completed;
@@ -132,71 +147,107 @@ export const CardDetailModal: React.FC<CardDetailModalProps> = ({
       text: text.trim() || card.text,
       description: description.trim(),
       completed,
+      startDate,
+      startTime,
       dueDate,
       dueTime,
       columnId,
       colorTag,
+      assigneeId: assigneeId || undefined,
       checklist,
       labels,
     });
     onClose();
   };
 
+  const handleQuickCopy = (targetColId: string) => {
+    if (onCopy) {
+      const currentCardSnapshot: TaskCard = {
+        ...card,
+        text: text.trim() || card.text,
+        description: description.trim(),
+        completed,
+        startDate,
+        startTime,
+        dueDate,
+        dueTime,
+        columnId,
+        colorTag,
+        assigneeId: assigneeId || undefined,
+        checklist,
+        labels,
+      };
+      onCopy(currentCardSnapshot, targetColId);
+      onClose();
+    }
+  };
+
+  // Checklist calculations
   const totalCheck = checklist.length;
-  const completedCheck = checklist.filter((c) => c.completed).length;
+  const completedCheck = checklist.filter((i) => i.completed).length;
   const progressPercent = totalCheck > 0 ? Math.round((completedCheck / totalCheck) * 100) : 0;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="w-full max-w-xl max-h-[92vh] flex flex-col bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+      <div className="w-full max-w-xl max-h-[92vh] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col">
+        {/* Top Accent Strip with selected color */}
+        <div
+          className="h-1.5 w-full transition-colors duration-200"
+          style={{ backgroundColor: activePalette.hex }}
+        />
+
         {/* Modal Header */}
         <div className="p-4 sm:p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/50">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <button
               type="button"
               onClick={handleToggleComplete}
-              className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all ${
+              className={`w-6 h-6 rounded-lg border flex items-center justify-center transition-all ${
                 completed
                   ? 'bg-emerald-500 border-emerald-500 text-white shadow-sm'
-                  : 'border-slate-300 dark:border-slate-600 hover:border-emerald-500 text-transparent hover:text-emerald-500'
+                  : 'border-slate-300 dark:border-slate-600 hover:border-emerald-500 text-transparent'
               }`}
+              title={completed ? 'Marcar como pendiente' : 'Marcar como completada'}
             >
               <Check className="w-4 h-4 stroke-[3]" />
             </button>
             <div>
-              <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 Detalles de Tarea
               </span>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                {completed ? 'Completada' : 'En progreso'}
-              </p>
+              <div className="flex items-center gap-2 mt-0.5">
+                <span
+                  className="w-2 h-2 rounded-full"
+                  style={{ backgroundColor: activePalette.hex }}
+                />
+                <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-300">
+                  Color {activePalette.name}
+                </span>
+              </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <button
-              onClick={() => {
-                if (confirm('¿Eliminar esta tarea definitivamente?')) {
-                  onDelete(card.id);
-                  onClose();
-                }
-              }}
-              className="p-2 text-rose-500 hover:text-rose-600 dark:hover:text-rose-400 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
+              type="button"
+              onClick={() => onDelete(card.id)}
+              className="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-xl transition-colors"
               title="Eliminar tarea"
             >
               <Trash2 className="w-4 h-4" />
             </button>
             <button
+              type="button"
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
         </div>
 
-        {/* Modal Scrollable Body */}
-        <div className="p-4 sm:p-6 overflow-y-auto space-y-5 custom-scroll flex-1">
+        {/* Modal Body */}
+        <div className="p-4 sm:p-6 overflow-y-auto space-y-4 custom-scroll flex-1">
           {/* Title */}
           <div>
             <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
@@ -211,7 +262,7 @@ export const CardDetailModal: React.FC<CardDetailModalProps> = ({
             />
           </div>
 
-          {/* Column Switcher */}
+          {/* Column Switcher + Color Picker */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
@@ -248,7 +299,9 @@ export const CardDetailModal: React.FC<CardDetailModalProps> = ({
                     type="button"
                     onClick={() => setColorTag(pal.id)}
                     className={`w-6 h-6 rounded-full transition-transform ${
-                      colorTag === pal.id ? 'scale-125 ring-2 ring-offset-2 ring-indigo-500' : 'hover:scale-110'
+                      colorTag === pal.id
+                        ? 'scale-125 ring-2 ring-offset-2 ring-indigo-500 dark:ring-offset-slate-900'
+                        : 'hover:scale-110 opacity-70 hover:opacity-100'
                     }`}
                     style={{ backgroundColor: pal.hex }}
                     title={pal.name}
@@ -257,6 +310,30 @@ export const CardDetailModal: React.FC<CardDetailModalProps> = ({
               </div>
             </div>
           </div>
+
+          {/* Grupo de Trabajo / Asignar Responsable */}
+          {members.length > 0 && (
+            <div>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
+                <span className="flex items-center gap-1.5">
+                  <Users className="w-3.5 h-3.5 text-indigo-500" />
+                  Responsable / Asignado
+                </span>
+              </label>
+              <select
+                value={assigneeId}
+                onChange={(e) => setAssigneeId(e.target.value)}
+                className="w-full text-xs font-medium px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white outline-none focus:border-indigo-500"
+              >
+                <option value="">(Sin asignar)</option>
+                {members.map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {m.name} — ({m.email})
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           {/* Description */}
           <div>
@@ -272,37 +349,115 @@ export const CardDetailModal: React.FC<CardDetailModalProps> = ({
             />
           </div>
 
-          {/* Due Date & Time */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
-                <span className="flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-indigo-500" />
-                  Fecha Límite
-                </span>
-              </label>
-              <input
-                type="date"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-                className="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white outline-none focus:border-indigo-500"
-              />
+          {/* DATES: Fecha de Inicio y Fecha Final/Límite */}
+          <div className="p-3.5 rounded-xl bg-slate-50/60 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 space-y-3">
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">
+              Fechas y Plazos del Proyecto
+            </span>
+
+            {/* Start Date & Time */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="w-3 h-3 text-emerald-500" />
+                    Fecha de Inicio
+                  </span>
+                </label>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="w-full text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-850 text-slate-900 dark:text-white outline-none focus:border-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">
+                  <span className="flex items-center gap-1.5">
+                    <Clock className="w-3 h-3 text-emerald-500" />
+                    Hora de Inicio
+                  </span>
+                </label>
+                <input
+                  type="time"
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value)}
+                  className="w-full text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-850 text-slate-900 dark:text-white outline-none focus:border-emerald-500"
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
-                <span className="flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-indigo-500" />
-                  Hora de Alarma
-                </span>
-              </label>
-              <input
-                type="time"
-                value={dueTime}
-                onChange={(e) => setDueTime(e.target.value)}
-                className="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white outline-none focus:border-indigo-500"
-              />
+
+            {/* Due Date & Time (Fin / Límite) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200/50 dark:border-slate-700/50">
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="w-3 h-3 text-rose-500" />
+                    Fecha Final / Límite
+                  </span>
+                </label>
+                <input
+                  type="date"
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                  className="w-full text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-850 text-slate-900 dark:text-white outline-none focus:border-rose-500"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">
+                  <span className="flex items-center gap-1.5">
+                    <Clock className="w-3 h-3 text-rose-500" />
+                    Hora de Alarma / Límite
+                  </span>
+                </label>
+                <input
+                  type="time"
+                  value={dueTime}
+                  onChange={(e) => setDueTime(e.target.value)}
+                  className="w-full text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-850 text-slate-900 dark:text-white outline-none focus:border-rose-500"
+                />
+              </div>
             </div>
           </div>
+
+          {/* Quick Copy to Another Column */}
+          {onCopy && (
+            <div className="p-3 rounded-xl bg-slate-50/60 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-2 flex-wrap">
+              <div>
+                <span className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                  <Copy className="w-3.5 h-3.5 text-emerald-500" />
+                  Copiar esta tarea
+                </span>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                  Duplica la tarea y sus subtareas a otra columna
+                </p>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <select
+                  id="copy-col-select"
+                  defaultValue={columnId}
+                  className="text-xs px-2 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-850 text-slate-900 dark:text-white"
+                >
+                  {columns.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const sel = document.getElementById('copy-col-select') as HTMLSelectElement;
+                    if (sel) handleQuickCopy(sel.value);
+                  }}
+                  className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg transition-colors flex items-center gap-1 shadow-sm"
+                >
+                  <Copy className="w-3 h-3" />
+                  Copiar
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Checklist */}
           <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">

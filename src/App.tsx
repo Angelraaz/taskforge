@@ -7,6 +7,7 @@ import {
   BoardColumn,
   UserSession,
   NotificationSettings,
+  BoardMember,
 } from './types';
 import {
   getInitialBoards,
@@ -47,6 +48,7 @@ import { SearchModal } from './components/SearchModal';
 import { NotificationsModal } from './components/NotificationsModal';
 import { BoardSettingsModal } from './components/BoardSettingsModal';
 import { AuthModal } from './components/AuthModal';
+import { WorkgroupModal } from './components/WorkgroupModal';
 import { Hammer, AlertCircle, RefreshCw } from 'lucide-react';
 
 export default function App() {
@@ -71,6 +73,7 @@ export default function App() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isBoardSettingsOpen, setIsBoardSettingsOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isWorkgroupOpen, setIsWorkgroupOpen] = useState(false);
 
   // Notifications
   const [notificationConfig, setNotificationConfig] = useState<NotificationSettings>(() =>
@@ -417,6 +420,68 @@ export default function App() {
       setSyncStatus('error');
       setSyncError(msg);
       alert(`No se pudo eliminar la columna en Supabase: ${msg}`);
+    }
+  };
+
+  const handleMoveColumn = async (columnId: string, direction: 'left' | 'right') => {
+    if (!activeBoard) return;
+    const cols = [...activeBoard.columns];
+    const currentIndex = cols.findIndex((c) => c.id === columnId);
+    if (currentIndex === -1) return;
+
+    const targetIndex = direction === 'left' ? currentIndex - 1 : currentIndex + 1;
+    if (targetIndex < 0 || targetIndex >= cols.length) return;
+
+    // Swap columns
+    const temp = cols[currentIndex];
+    cols[currentIndex] = cols[targetIndex];
+    cols[targetIndex] = temp;
+
+    // Recalculate position
+    const reorderedCols = cols.map((col, idx) => ({ ...col, position: idx }));
+
+    setBoards((prev) => {
+      const updated = prev.map((b) =>
+        b.id === activeBoard.id ? { ...b, columns: reorderedCols } : b
+      );
+      if (currentUser) cacheBoardsLocally(currentUser.id, updated);
+      else saveBoards(updated);
+      return updated;
+    });
+
+    if (currentUser) {
+      try {
+        for (const col of reorderedCols) {
+          await updateColumnInSupabase(col.id, { name: col.name, position: col.position });
+        }
+      } catch (err) {
+        console.warn('Error updating column order in Supabase:', err);
+      }
+    }
+  };
+
+  const handleUpdateColumnColor = async (columnId: string, color: string) => {
+    if (!activeBoard) return;
+    setBoards((prev) => {
+      const updated = prev.map((b) =>
+        b.id === activeBoard.id
+          ? {
+              ...b,
+              columns: b.columns.map((c) => (c.id === columnId ? { ...c, color } : c)),
+            }
+          : b
+      );
+      if (currentUser) cacheBoardsLocally(currentUser.id, updated);
+      else saveBoards(updated);
+      return updated;
+    });
+
+    if (currentUser) {
+      try {
+        await updateColumnInSupabase(columnId, { color });
+      } catch (err) {
+        console.warn('Error updating column color in Supabase:', err);
+      }
     }
   };
 
@@ -783,6 +848,79 @@ export default function App() {
     }
   };
 
+  const handleCopyCard = async (cardToCopy: TaskCard, targetColId: string) => {
+    if (!activeBoard) return;
+    setSyncStatus('saving');
+    setSyncError(null);
+
+    const targetCol = activeBoard.columns.find((c) => c.id === targetColId);
+    const position = targetCol ? targetCol.cards.length : 0;
+    const copiedText = cardToCopy.text.includes('(Copia)')
+      ? cardToCopy.text
+      : `${cardToCopy.text} (Copia)`;
+
+    try {
+      if (currentUser) {
+        const createdCard = await createCardInSupabase(targetColId, copiedText, position);
+        const fullCopiedCard: TaskCard = {
+          ...cardToCopy,
+          id: createdCard.id,
+          columnId: targetColId,
+          text: copiedText,
+          position,
+        };
+        await updateCardInSupabase(fullCopiedCard);
+
+        setBoards((prev) => {
+          const updated = prev.map((b) =>
+            b.id === activeBoard.id
+              ? {
+                  ...b,
+                  columns: b.columns.map((col) =>
+                    col.id === targetColId
+                      ? { ...col, cards: [...col.cards, fullCopiedCard] }
+                      : col
+                  ),
+                }
+              : b
+          );
+          cacheBoardsLocally(currentUser.id, updated);
+          return updated;
+        });
+      } else {
+        const guestCopiedCard: TaskCard = {
+          ...cardToCopy,
+          id: 'card-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+          columnId: targetColId,
+          text: copiedText,
+          position,
+        };
+        setBoards((prev) => {
+          const updated = prev.map((b) =>
+            b.id === activeBoard.id
+              ? {
+                  ...b,
+                  columns: b.columns.map((col) =>
+                    col.id === targetColId
+                      ? { ...col, cards: [...col.cards, guestCopiedCard] }
+                      : col
+                  ),
+                }
+              : b
+          );
+          saveBoards(updated);
+          return updated;
+        });
+      }
+      setSyncStatus(currentUser ? 'synced' : 'offline');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Error al copiar tarjeta';
+      console.error('Error al copiar tarjeta:', err);
+      setSyncStatus('error');
+      setSyncError(msg);
+    }
+  };
+
   // --- Board Operations (Supabase First) ---
 
   const handleNewBoard = async () => {
@@ -939,6 +1077,93 @@ export default function App() {
     }
   };
 
+  const handleAddMember = (memberData: Omit<BoardMember, 'id' | 'joinedAt'>) => {
+    if (!activeBoard) return;
+    const newMember: BoardMember = {
+      ...memberData,
+      id: 'member-' + Date.now(),
+      joinedAt: getLocalDateString(),
+    };
+
+    setBoards((prev) => {
+      const updated = prev.map((b) =>
+        b.id === activeBoard.id
+          ? {
+              ...b,
+              members: [...(b.members || []), newMember],
+            }
+          : b
+      );
+      if (currentUser) cacheBoardsLocally(currentUser.id, updated);
+      else saveBoards(updated);
+      return updated;
+    });
+  };
+
+  const handleRemoveMember = (memberId: string) => {
+    if (!activeBoard) return;
+    setBoards((prev) => {
+      const updated = prev.map((b) =>
+        b.id === activeBoard.id
+          ? {
+              ...b,
+              members: (b.members || []).filter((m) => m.id !== memberId),
+            }
+          : b
+      );
+      if (currentUser) cacheBoardsLocally(currentUser.id, updated);
+      else saveBoards(updated);
+      return updated;
+    });
+  };
+
+  const handleUpdateMemberRole = (memberId: string, newRole: BoardMember['role']) => {
+    if (!activeBoard) return;
+    setBoards((prev) => {
+      const updated = prev.map((b) =>
+        b.id === activeBoard.id
+          ? {
+              ...b,
+              members: (b.members || []).map((m) =>
+                m.id === memberId ? { ...m, role: newRole } : m
+              ),
+            }
+          : b
+      );
+      if (currentUser) cacheBoardsLocally(currentUser.id, updated);
+      else saveBoards(updated);
+      return updated;
+    });
+  };
+
+  const handleJoinBoardWithCode = (code: string) => {
+    if (!activeBoard) return;
+    const matchedBoard = boards.find(
+      (b) =>
+        b.inviteCode === code ||
+        `TASK-${b.id.slice(-4).toUpperCase()}` === code
+    );
+    if (matchedBoard) {
+      setActiveBoardId(matchedBoard.id);
+    } else {
+      handleAddMember({
+        name: currentUser?.email.split('@')[0] || 'Nuevo Colaborador',
+        email: currentUser?.email || 'colaborador@equipo.com',
+        role: 'member',
+        avatarColor: '#10b981',
+      });
+    }
+  };
+
+  const handlePrintBoard = () => {
+    if (activeView !== 'tablero') {
+      setActiveView('tablero');
+    }
+    setTimeout(() => {
+      window.print();
+    }, 250);
+  };
+
   const handleCardClick = (card: TaskCard) => {
     setSelectedCard(card);
     setIsDetailOpen(true);
@@ -975,6 +1200,9 @@ export default function App() {
       <Header
         onOpenNotifications={() => setIsNotificationsOpen(true)}
         onOpenAuth={() => setIsAuthOpen(true)}
+        onOpenWorkgroup={() => setIsWorkgroupOpen(true)}
+        onPrint={handlePrintBoard}
+        memberCount={activeBoard?.members?.length || 1}
         alertCount={alertCount}
         themeMode={themeMode}
         onSelectThemeMode={setThemeMode}
@@ -1026,10 +1254,13 @@ export default function App() {
                 onAddColumn={handleAddColumn}
                 onEditColumn={handleEditColumn}
                 onDeleteColumn={handleDeleteColumn}
+                onMoveColumn={handleMoveColumn}
+                onUpdateColumnColor={handleUpdateColumnColor}
                 onAddCard={handleAddCard}
                 onCardClick={handleCardClick}
                 onToggleComplete={handleToggleComplete}
                 onMoveCard={handleMoveCard}
+                onCopyCard={handleCopyCard}
                 onDeleteCard={handleDeleteCard}
               />
             )}
@@ -1058,6 +1289,7 @@ export default function App() {
       <CardDetailModal
         card={selectedCard}
         columns={activeBoard?.columns || []}
+        members={activeBoard?.members || []}
         isOpen={isDetailOpen}
         onClose={() => {
           setIsDetailOpen(false);
@@ -1065,6 +1297,7 @@ export default function App() {
         }}
         onSave={handleSaveCard}
         onDelete={handleDeleteCard}
+        onCopy={handleCopyCard}
       />
 
       <SearchModal
@@ -1099,6 +1332,18 @@ export default function App() {
           onSaveBoard={handleSaveBoard}
           onDeleteBoard={handleDeleteBoard}
           canDelete={boards.length > 1}
+        />
+      )}
+
+      {activeBoard && (
+        <WorkgroupModal
+          isOpen={isWorkgroupOpen}
+          onClose={() => setIsWorkgroupOpen(false)}
+          board={activeBoard}
+          onAddMember={handleAddMember}
+          onRemoveMember={handleRemoveMember}
+          onUpdateMemberRole={handleUpdateMemberRole}
+          onJoinBoardWithCode={handleJoinBoardWithCode}
         />
       )}
 

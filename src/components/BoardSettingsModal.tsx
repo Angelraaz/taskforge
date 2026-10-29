@@ -85,7 +85,10 @@ export const BoardSettingsModal: React.FC<BoardSettingsModalProps> = ({
   const completionRate = totalCards > 0 ? Math.round((completedCards / totalCards) * 100) : 0;
 
   const handlePrint = () => {
-    window.print();
+    onClose();
+    setTimeout(() => {
+      window.print();
+    }, 200);
   };
 
   const handleSave = () => {

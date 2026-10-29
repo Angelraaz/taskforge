@@ -9,6 +9,15 @@ interface CalendarViewProps {
   onAddCardWithDate?: (dateStr: string) => void;
 }
 
+const COLOR_MAP: Record<string, string> = {
+  indigo: '#6366f1',
+  violet: '#8b5cf6',
+  cyan: '#06b6d4',
+  emerald: '#10b981',
+  amber: '#f59e0b',
+  rose: '#f43f5e',
+};
+
 export const CalendarView: React.FC<CalendarViewProps> = ({ board, onCardClick }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -58,7 +67,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ board, onCardClick }
   return (
     <div className="w-full max-w-7xl mx-auto p-3 sm:p-6 flex-1 flex flex-col">
       {/* Calendar Header Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 bg-white dark:bg-slate-900 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 bg-white dark:bg-slate-900 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm no-print">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold">
             <CalendarIcon className="w-5 h-5" />
@@ -68,7 +77,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ board, onCardClick }
               {monthNames[month]} {year}
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              {allCards.filter((c) => !!c.card.dueDate).length} tareas programadas
+              {allCards.filter((c) => !!c.card.dueDate || !!c.card.startDate).length} tareas programadas
             </p>
           </div>
         </div>
@@ -100,9 +109,9 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ board, onCardClick }
       </div>
 
       {/* Calendar Grid Container */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden flex-1 flex flex-col">
-        {/* Days of week */}
-        <div className="grid grid-cols-7 border-b border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-850 text-center py-2.5 text-xs font-bold text-slate-500 uppercase tracking-wider">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col flex-1">
+        {/* Days of Week Header */}
+        <div className="grid grid-cols-7 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-850/50 text-center py-2.5 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
           <span>Dom</span>
           <span>Lun</span>
           <span>Mar</span>
@@ -112,11 +121,14 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ board, onCardClick }
           <span>Sáb</span>
         </div>
 
-        {/* Days cells */}
-        <div className="grid grid-cols-7 flex-1 auto-rows-fr divide-x divide-y divide-slate-100 dark:divide-slate-800/80">
-          {/* Empty cells before month start */}
+        {/* Days Grid */}
+        <div className="grid grid-cols-7 flex-1 divide-x divide-y divide-slate-100 dark:divide-slate-800">
+          {/* Empty spacer days for month start */}
           {Array.from({ length: firstDayIndex }).map((_, i) => (
-            <div key={`empty-${i}`} className="min-h-[90px] bg-slate-50/30 dark:bg-slate-900/40 p-1.5" />
+            <div
+              key={`empty-${i}`}
+              className="min-h-[95px] p-2 bg-slate-50/30 dark:bg-slate-950/20"
+            />
           ))}
 
           {/* Actual days */}
@@ -127,7 +139,16 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ board, onCardClick }
             const dateStr = `${year}-${monthFormatted}-${dayFormatted}`;
             const isToday = dateStr === todayStr;
 
-            const dayTasks = allCards.filter((item) => item.card.dueDate === dateStr);
+            // Match if dueDate is today, or startDate is today, or falls within date range
+            const dayTasks = allCards.filter(
+              (item) =>
+                item.card.dueDate === dateStr ||
+                item.card.startDate === dateStr ||
+                (item.card.startDate &&
+                  item.card.dueDate &&
+                  item.card.startDate <= dateStr &&
+                  item.card.dueDate >= dateStr)
+            );
 
             return (
               <div
@@ -158,12 +179,23 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ board, onCardClick }
                 <div className="space-y-1 overflow-y-auto max-h-[85px] custom-scroll flex-1">
                   {dayTasks.map(({ card, columnColor }) => {
                     const isOverdue = !!card.dueDate && card.dueDate < todayStr && !card.completed;
+                    const cardAccent =
+                      card.colorTag && card.colorTag.startsWith('#')
+                        ? card.colorTag
+                        : COLOR_MAP[card.colorTag || 'indigo'] || columnColor || '#6366f1';
+
+                    const isStartDay = card.startDate === dateStr;
+                    const isEndDay = card.dueDate === dateStr;
+
                     return (
                       <button
                         key={card.id}
                         type="button"
                         onClick={() => onCardClick(card)}
-                        className={`w-full text-left p-1.5 rounded-lg text-[11px] font-medium leading-tight truncate flex items-center gap-1.5 transition-all ${
+                        style={{
+                          borderLeftColor: cardAccent,
+                        }}
+                        className={`w-full text-left p-1.5 rounded-lg text-[11px] font-medium leading-tight truncate flex items-center gap-1.5 transition-all border-l-2 ${
                           card.completed
                             ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 line-through opacity-70'
                             : isOverdue
@@ -173,9 +205,12 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ board, onCardClick }
                       >
                         <span
                           className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: columnColor || '#6366f1' }}
+                          style={{ backgroundColor: cardAccent }}
                         />
-                        <span className="truncate flex-1">{card.text}</span>
+                        <span className="truncate flex-1">
+                          {isStartDay && !isEndDay && '▶ '}
+                          {card.text}
+                        </span>
                         {card.dueTime && (
                           <span className="text-[9px] opacity-75">{card.dueTime}</span>
                         )}

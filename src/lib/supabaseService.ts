@@ -95,15 +95,19 @@ export async function fetchAuthoritativeBoards(userId: string): Promise<Board[]>
 
         const cards: TaskCard[] = (cardsData || []).map((k) => {
           const { dueDate, dueTime } = parseSupabaseDueDate(k.due_date);
+          const { dueDate: startDate, dueTime: startTime } = parseSupabaseDueDate(k.start_date);
           return {
             id: k.id,
             columnId: c.id,
             text: k.text || '',
             description: k.description || '',
+            startDate: startDate || undefined,
+            startTime: startTime || undefined,
             dueDate,
             dueTime,
             completed: Boolean(k.completed),
             colorTag: k.color_tag || 'indigo',
+            assigneeId: k.assignee_id || undefined,
             labels: Array.isArray(k.labels) ? k.labels : [],
             checklist: Array.isArray(k.checklist) ? k.checklist : [],
             position: k.position ?? 0,
@@ -127,6 +131,17 @@ export async function fetchAuthoritativeBoards(userId: string): Promise<Board[]>
         description: b.description || '',
         backgroundColor: b.background_color || '#0f172a',
         columns,
+        members: b.members || [
+          {
+            id: 'member-owner',
+            name: 'Tú (Líder de Proyecto)',
+            email: 'organizador@taskforge.app',
+            role: 'owner',
+            avatarColor: '#6366f1',
+            joinedAt: new Date().toISOString().slice(0, 10),
+          },
+        ],
+        inviteCode: b.invite_code || `TASK-${b.id.slice(-4).toUpperCase()}`,
         createdAt: b.created_at,
       });
     }
@@ -427,23 +442,34 @@ export async function updateCardInSupabase(card: TaskCard): Promise<void> {
   const dueDateFormatted = card.dueDate
     ? card.dueDate + (card.dueTime ? `T${card.dueTime}:00` : 'T09:00:00')
     : null;
+  const startDateFormatted = card.startDate
+    ? card.startDate + (card.startTime ? `T${card.startTime}:00` : 'T09:00:00')
+    : null;
 
-  const { error } = await supabase
-    .from('cards')
-    .update({
-      column_id: card.columnId,
-      text: card.text.trim(),
-      description: card.description || '',
-      due_date: dueDateFormatted,
-      completed: card.completed,
-      color_tag: card.colorTag || 'indigo',
-      labels: card.labels || [],
-      checklist: card.checklist || [],
-      position: card.position ?? 0,
-    })
-    .eq('id', card.id);
+  const payload: Record<string, unknown> = {
+    column_id: card.columnId,
+    text: card.text.trim(),
+    description: card.description || '',
+    due_date: dueDateFormatted,
+    completed: card.completed,
+    color_tag: card.colorTag || 'indigo',
+    labels: card.labels || [],
+    checklist: card.checklist || [],
+    position: card.position ?? 0,
+  };
+  if (startDateFormatted) payload.start_date = startDateFormatted;
+  if (card.assigneeId) payload.assignee_id = card.assigneeId;
+
+  const { error } = await supabase.from('cards').update(payload).eq('id', card.id);
 
   if (error) {
+    if (error.message && (error.message.includes('start_date') || error.message.includes('assignee_id'))) {
+      delete payload.start_date;
+      delete payload.assignee_id;
+      const { error: retryErr } = await supabase.from('cards').update(payload).eq('id', card.id);
+      if (retryErr) throw new Error(`Error al actualizar tarjeta en Supabase: ${retryErr.message}`);
+      return;
+    }
     throw new Error(`Error al actualizar tarjeta en Supabase: ${error.message}`);
   }
 }
